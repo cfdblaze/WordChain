@@ -7,31 +7,21 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class MainActivity extends ActionBarActivity {
+public class SolvePage extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-    }
+        setContentView(R.layout.activity_solve_page);
 
-    public void build() {
-        Intent intent = new Intent(this, BuildPage.class);
-    }
-
-    public void solve() {
-        Intent intent = new Intent(this, SolvePage.class);
-    }
-
-    public void load() {
-        Intent intent = new Intent(this, LoadPage.class);
+        Intent intent = getIntent();
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_solve_page, menu);
         return true;
     }
 

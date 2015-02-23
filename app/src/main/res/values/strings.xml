@@ -4,5 +4,9 @@
     <string name="app_name">WordChain</string>
     <string name="hello_world">Hello world!</string>
     <string name="action_settings">Settings</string>
+    <string name="title_activity_build_page">BuildPage</string>
+    <string name="title_activity_solve_page">SolvePage</string>
+    <string name="title_activity_load">LoadActivity</string>
+    <string name="title_activity_load_page">LoadPage</string>
 
 </resources>

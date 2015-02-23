@@ -16,6 +16,22 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".BuildPage"
+            android:label="@string/title_activity_build_page" >
+        </activity>
+        <activity
+            android:name=".SolvePage"
+            android:label="@string/title_activity_solve_page" >
+        </activity>
+        <activity
+            android:name=".LoadActivity"
+            android:label="@string/title_activity_load" >
+        </activity>
+        <activity
+            android:name=".LoadPage"
+            android:label="@string/title_activity_load_page" >
+        </activity>
     </application>
 
 </manifest>
