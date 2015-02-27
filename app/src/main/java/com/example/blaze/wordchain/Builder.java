@@ -9,6 +9,8 @@ import android.view.MenuItem;
 
 public class Builder extends ActionBarActivity {
 
+    private WordChain wordChain = new WordChain();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

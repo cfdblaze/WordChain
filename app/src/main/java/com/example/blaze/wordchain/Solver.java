@@ -9,12 +9,17 @@ import android.view.MenuItem;
 
 public class Solver extends ActionBarActivity {
 
+    private WordChain wordChain = new WordChain();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_solve_page);
 
         Intent intent = getIntent();
+    }
+
+    public void solve() {
+
     }
 
 

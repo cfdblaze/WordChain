@@ -8,12 +8,41 @@ import android.view.MenuItem;
 
 public class WordChain extends ActionBarActivity {
 
+    private String firstWord;
+    private String lastWord;
+    private Integer wordLength;
+    //private Dictionary dictionary;
+    private Integer points;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_word_chain);
     }
 
+    public void undo() {
+
+    }
+
+    public void clear() {
+
+    }
+
+    public void next() {
+
+    }
+
+    public void validate() {
+
+    }
+
+    public void calculatePoints() {
+
+    }
+
+    public void display() {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
