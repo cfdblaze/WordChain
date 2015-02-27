@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class BuildPage extends ActionBarActivity {
+public class Builder extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

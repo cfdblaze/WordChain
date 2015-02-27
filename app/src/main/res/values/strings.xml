@@ -8,5 +8,9 @@
     <string name="title_activity_solve_page">SolvePage</string>
     <string name="title_activity_load">LoadActivity</string>
     <string name="title_activity_load_page">LoadPage</string>
+    <string name="title_activity_word_chain">WordChain</string>
+    <string name="title_activity_builder">Builder</string>
+    <string name="title_activity_solver">Solver</string>
+    <string name="title_activity_loader">Loader</string>
 
 </resources>

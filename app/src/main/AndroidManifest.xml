@@ -16,21 +16,26 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <activity
-            android:name=".BuildPage"
-            android:label="@string/title_activity_build_page" >
+            android:name=".Builder"
+            android:label="Builder" >
         </activity>
         <activity
-            android:name=".SolvePage"
-            android:label="@string/title_activity_solve_page" >
+            android:name=".WordChain"
+            android:label="@string/title_activity_word_chain" >
         </activity>
         <activity
-            android:name=".LoadActivity"
-            android:label="@string/title_activity_load" >
+            android:name=".Solver"
+            android:label="@string/title_activity_solver"
+            android:parentActivityName=".WordChain" >
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="WordChain" />
         </activity>
         <activity
-            android:name=".LoadPage"
-            android:label="@string/title_activity_load_page" >
+            android:name=".Loader"
+            android:label="@string/title_activity_loader" >
         </activity>
     </application>
 

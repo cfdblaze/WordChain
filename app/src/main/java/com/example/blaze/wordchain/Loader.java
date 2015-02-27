@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class LoadPage extends ActionBarActivity {
+public class Loader extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

@@ -7,7 +7,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 
-public class SolvePage extends ActionBarActivity {
+public class Solver extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

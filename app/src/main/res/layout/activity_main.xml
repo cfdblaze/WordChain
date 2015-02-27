@@ -23,7 +23,7 @@
         android:id="@+id/buildButton"
         android:layout_below="@+id/title"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="50dp"
         android:onClick="build" />
 
     <Button
@@ -33,7 +33,7 @@
         android:id="@+id/loadButton"
         android:layout_below="@+id/buildButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="50dp"
         android:onClick="load" />
 
     <Button
@@ -43,6 +43,6 @@
         android:id="@+id/solveButton"
         android:layout_below="@+id/loadButton"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="65dp"
+        android:layout_marginTop="50dp"
         android:onClick="solve" />
 </RelativeLayout>
