@@ -1,43 +1,53 @@
 package com.example.blaze.wordchain;
 
-import android.content.Intent;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import android.view.View;
 
 
-public class MainActivity extends ActionBarActivity {
+public class WordChain extends ActionBarActivity {
+
+    private String firstWord;
+    private String lastWord;
+    private Integer wordLength;
+    //private Dictionary dictionary;
+    private Integer points;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_word_chain);
     }
 
-    public void build(View view) {
-        Intent build = new Intent(this, Builder.class);
-        startActivity(build);
+    public void undo() {
+
     }
 
-    public void solve(View view) {
-        Intent solve = new Intent(this, Solver.class);
-        startActivity(solve);
+    public void clear() {
+
     }
 
-    public void load(View view) {
-        Intent load = new Intent(this, Loader.class);
-        startActivity(load);
+    public void next() {
+
     }
 
+    public void validate() {
+
+    }
+
+    public void calculatePoints() {
+
+    }
+
+    public void display() {
+
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_word_chain, menu);
         return true;
     }
 

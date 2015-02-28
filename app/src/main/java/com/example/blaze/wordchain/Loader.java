@@ -5,39 +5,35 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.widget.Toast;
-import android.view.View;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
-public class MainActivity extends ActionBarActivity {
+public class Loader extends ActionBarActivity {
 
+    public List<WordChain> list = new ArrayList<>();
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_load_page);
+
+        Intent intent = getIntent();
     }
 
-    public void build(View view) {
-        Intent build = new Intent(this, Builder.class);
-        startActivity(build);
+    public void load() {
+
     }
 
-    public void solve(View view) {
-        Intent solve = new Intent(this, Solver.class);
-        startActivity(solve);
-    }
+    public void displayList() {
 
-    public void load(View view) {
-        Intent load = new Intent(this, Loader.class);
-        startActivity(load);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.menu_main, menu);
+        getMenuInflater().inflate(R.menu.menu_load_page, menu);
         return true;
     }
 
