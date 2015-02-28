@@ -4,6 +4,8 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Toast;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -35,5 +37,16 @@ public class MainActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    public void checkCommon(View view) {
+        String toCheck = "goat";
+        Dictionary checkdictionary = new Dictionary(this.getApplicationContext(), toCheck);
+        if (checkdictionary.lookUpCommon(toCheck))
+            System.out.println(toCheck + " is a common word.");
+        else if (checkdictionary.lookUpAll(toCheck))
+            System.out.println(toCheck + " is not a common word.");
+        else
+            System.out.println(toCheck + " is not a word.");
     }
 }
