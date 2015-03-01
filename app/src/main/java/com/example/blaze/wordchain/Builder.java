@@ -1,15 +1,21 @@
 package com.example.blaze.wordchain;
 
 import android.content.Intent;
+import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 
 public class Builder extends ActionBarActivity {
 
-    private WordChain wordChain = new WordChain();
+    private WordChain wordChain = new WordChain((String)"warm", (String) "cold");
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -19,6 +25,47 @@ public class Builder extends ActionBarActivity {
         Intent intent = getIntent();
     }
 
+    public void save() {
+
+        wordChain.save();
+    }
+
+    public void undo() {
+        wordChain.undo();
+        display();
+    }
+
+    public void clear() {
+        wordChain.clear();
+        display();
+    }
+
+    /**
+     * Function: Display
+     *
+     * Uses and AsyncLoad to reload the ListView in the background every time a word is changed
+     */
+    public void display() {
+
+        class AsyncLoad extends AsyncTask<String, Integer, String> {
+
+            @Override
+            protected String doInBackground(String... params) {
+                final ListView list = (ListView) findViewById(R.id.listView);
+
+                final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
+
+                runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        list.setAdapter(adapter);
+                    }
+                });
+                return null;
+            }
+        }
+        new AsyncLoad().execute();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
