@@ -13,7 +13,7 @@
         android:text="Word Chain Builder"
         android:id="@+id/title"
         android:textIsSelectable="false"
-        android:textSize="60sp"
+        android:textSize="50sp"
         android:gravity="center"
         android:textColor="@color/primary_material_light"
         android:layout_alignParentTop="true"
