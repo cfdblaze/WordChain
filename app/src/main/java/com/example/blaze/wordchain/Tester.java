@@ -9,16 +9,18 @@ public class Tester {
 
 
     private WordChain wordChain = new WordChain("warm", "cold");
-    public boolean testXML(String XMLVerify){
+
+    public boolean testXML(String XMLVerify) {
         Assert.assertNotNull(XMLVerify);
         return true;
     }
+
     public void responseTest(int code) {
         Assert.assertEquals(200, code);
         return;
     }
-    
-    public void test() {
+
+    public void testWordChainClass() {
         Assert.assertEquals("Error: unequal first words", "warm", wordChain.getFirstWord());
 
         wordChain.next("worm");
@@ -33,4 +35,6 @@ public class Tester {
 
         Assert.assertEquals("Error, failed to clear list", 1, wordChain.chain.size());
     }
+
+
 }
