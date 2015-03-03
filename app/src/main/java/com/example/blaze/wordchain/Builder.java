@@ -6,7 +6,9 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
 import android.widget.ListView;
 
 import java.io.IOException;
@@ -23,19 +25,23 @@ public class Builder extends ActionBarActivity {
         setContentView(R.layout.activity_build_page);
 
         Intent intent = getIntent();
+        display();
     }
 
-    public void save() {
-
-        wordChain.save();
+    public void save(View view) {
+        //TEST:
+        EditText currentWord = (EditText) findViewById(R.id.currentWord);
+        wordChain.next(currentWord.getText().toString());
+        display();
+        //wordChain.save();
     }
 
-    public void undo() {
+    public void undo(View view) {
         wordChain.undo();
         display();
     }
 
-    public void clear() {
+    public void clear(View view) {
         wordChain.clear();
         display();
     }
