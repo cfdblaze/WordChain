@@ -10,6 +10,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -31,7 +32,10 @@ public class Builder extends ActionBarActivity {
     public void save(View view) {
         //TEST:
         EditText currentWord = (EditText) findViewById(R.id.currentWord);
-        wordChain.next(currentWord.getText().toString());
+        boolean isValid = wordChain.next(currentWord.getText().toString());
+        if(!isValid) {
+            Toast.makeText(getApplicationContext(), "Invalid word", Toast.LENGTH_SHORT).show();
+        }
         display();
         //wordChain.save();
     }
