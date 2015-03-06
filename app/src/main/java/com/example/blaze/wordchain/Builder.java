@@ -1,5 +1,6 @@
 package com.example.blaze.wordchain;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -31,8 +32,13 @@ public class Builder extends ActionBarActivity {
     public void save(View view) {
         //TEST:
         EditText currentWord = (EditText) findViewById(R.id.currentWord);
-        wordChain.next(currentWord.getText().toString());
-        display();
+        if (wordChain.dictionary.lookUpCommon(currentWord.getText().toString())) {
+            wordChain.next(currentWord.getText().toString());
+            display();
+        } else if (wordChain.dictionary.lookUpAll(currentWord.getText().toString())) {
+            wordChain.next(currentWord.getText().toString());
+            display();
+        }
         //wordChain.save();
     }
 

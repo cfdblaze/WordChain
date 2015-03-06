@@ -1,5 +1,7 @@
 package com.example.blaze.wordchain;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,8 +16,9 @@ public class WordChain { //} extends ActionBarActivity {
     private String lastWord;
     private Integer wordLength;
     public List<String> chain = new ArrayList<>();
-    //private Dictionary dictionary;
+    public Dictionary dictionary;
     private Integer points;
+
 
 //    @Override
 //    protected void onCreate(Bundle savedInstanceState) {
@@ -30,6 +33,8 @@ public class WordChain { //} extends ActionBarActivity {
     WordChain(String first, String last) {
         setFirstWord(first);
         setLastWord(last);
+        Context context = GlobalVars.getAppContext();
+        dictionary = new Dictionary(context, first);
         if(first.length() == last.length()) {
             setWordLength(getFirstWord().length());
         }
