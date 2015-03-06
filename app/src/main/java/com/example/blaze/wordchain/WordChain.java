@@ -6,11 +6,12 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class WordChain { //} extends ActionBarActivity {
+public class WordChain {
 
     private String firstWord;
     private String lastWord;
@@ -43,15 +44,6 @@ public class WordChain { //} extends ActionBarActivity {
         setPoints(0);
     }
 
-    /**
-     *  private String firstWord;
-     private String lastWord;
-     private Integer wordLength;
-     public List<String> chain = new ArrayList<>();
-     //private Dictionary dictionary;
-     private Integer points;
-     */
-
     public String  getFirstWord()                       { return firstWord; }
     public String  getLastWord()                        { return lastWord; }
     public Integer getWordLength()                      { return wordLength; }
@@ -76,12 +68,21 @@ public class WordChain { //} extends ActionBarActivity {
 
     private boolean validate(String currentWord) {
         //dictionary look up
-        return true;
+        if (currentWord.length() == getWordLength()) {
+            return true;
+        }
+        else {
+            return false;
+        }
     }
 
-    public void next(String currentWord) {
+    public boolean next(String currentWord) {
         if (validate(currentWord)) {
             chain.add(currentWord); //if it is valid, append it to the array
+            return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -92,30 +93,4 @@ public class WordChain { //} extends ActionBarActivity {
     public void save() {
         //save to a text file
     }
-
-//    public void display() { // I think this is done in the Builder.
-//
-//    }
-
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        // Inflate the menu; this adds items to the action bar if it is present.
-//        getMenuInflater().inflate(R.menu.menu_word_chain, menu);
-//        return true;
-//    }
-//
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        // Handle action bar item clicks here. The action bar will
-//        // automatically handle clicks on the Home/Up button, so long
-//        // as you specify a parent activity in AndroidManifest.xml.
-//        int id = item.getItemId();
-//
-//        //noinspection SimplifiableIfStatement
-//        if (id == R.id.action_settings) {
-//            return true;
-//        }
-//
-//        return super.onOptionsItemSelected(item);
-//    }
 }

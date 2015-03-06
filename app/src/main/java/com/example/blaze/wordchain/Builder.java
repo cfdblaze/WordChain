@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -38,6 +39,8 @@ public class Builder extends ActionBarActivity {
         } else if (wordChain.dictionary.lookUpAll(currentWord.getText().toString())) {
             wordChain.next(currentWord.getText().toString());
             display();
+        } else {
+            Toast.makeText(getApplicationContext(), "Invalid word", Toast.LENGTH_SHORT).show();
         }
         //wordChain.save();
     }
