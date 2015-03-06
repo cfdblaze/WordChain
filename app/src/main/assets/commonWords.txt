@@ -1,0 +1,7 @@
+dog
+cat
+warm
+worm
+word
+cord
+cold
