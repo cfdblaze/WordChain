@@ -147,5 +147,5 @@ public class Dictionary {
         } catch (IOException e) {
             e.printStackTrace();
         }
-    };
+    }
 }
