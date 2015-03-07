@@ -11,7 +11,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Word Chain Builder"
+        android:text="Word Chain"
         android:id="@+id/title"
         android:textIsSelectable="false"
         android:textSize="50sp"
