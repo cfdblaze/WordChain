@@ -15,6 +15,7 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import java.io.IOException;
@@ -77,7 +78,7 @@ public class Builder extends ActionBarActivity {
         //Get Last Word dialog box
         newLastWord = new EditText(this);
         AlertDialog.Builder lastWordBuilder = new AlertDialog.Builder(this);
-        lastWordBuilder.setTitle("First Word");
+        lastWordBuilder.setTitle("Last Word");
         lastWordBuilder.setCancelable(false);
 
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
@@ -149,9 +150,12 @@ public class Builder extends ActionBarActivity {
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
 
+
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
+                        TextView lastWordText = (TextView) findViewById(R.id.lastWord);
+                        lastWordText.setText(wordChain.getLastWord());
                         list.setAdapter(adapter);
                     }
                 });
