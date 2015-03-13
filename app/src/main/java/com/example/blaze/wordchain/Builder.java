@@ -1,10 +1,14 @@
 package com.example.blaze.wordchain;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.InputType;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,30 +23,105 @@ import java.util.ArrayList;
 
 public class Builder extends ActionBarActivity {
 
-    private WordChain wordChain = new WordChain((String)"warm", (String) "cold");
+    private static final String TAG_BUILDER = "Builder";
+    private WordChain wordChain;
+    private EditText newFirstWord;
+    private EditText newLastWord;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_build_page);
+        setContentView(R.layout.activity_builder);
 
         Intent intent = getIntent();
+
+        getFirstWord();
+    }
+
+    private void getFirstWord() {
+        //Get First Word dialog box
+        newFirstWord = new EditText(this);
+        AlertDialog.Builder firstWordBuilder = new AlertDialog.Builder(this);
+        firstWordBuilder.setTitle("First Word");
+        firstWordBuilder.setCancelable(false);
+
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        newFirstWord.setInputType(InputType.TYPE_CLASS_TEXT);// | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        firstWordBuilder.setView(newFirstWord);
+
+        // Set up the buttons
+        firstWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG_BUILDER, "First Word: " + newFirstWord.getText().toString());
+                getLastWord();
+            }
+        });
+//        firstWordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+
+        Log.i(TAG_BUILDER, "Starting call to show");
+        firstWordBuilder.show();
+        Log.i(TAG_BUILDER, "After call to show");
+
+        //AlertDialog firstWordPopUp = firstWordBuilder.create();
+        //firstWordPopUp.show();
+
+    }
+
+    private void getLastWord() {
+        //Get Last Word dialog box
+        newLastWord = new EditText(this);
+        AlertDialog.Builder lastWordBuilder = new AlertDialog.Builder(this);
+        lastWordBuilder.setTitle("First Word");
+        lastWordBuilder.setCancelable(false);
+
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        newLastWord.setInputType(InputType.TYPE_CLASS_TEXT);// | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        lastWordBuilder.setView(newLastWord);
+
+        // Set up the buttons
+        lastWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Log.i(TAG_BUILDER, "Last  Word: " + newLastWord.getText().toString());
+                createWordChain();
+            }
+        });
+//        lastWordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                dialog.cancel();
+//            }
+//        });
+
+        lastWordBuilder.show();
+
+        //AlertDialog lastWordPopUp = lastWordBuilder.create();
+        //lastWordPopUp.show();
+    }
+
+    private void createWordChain() {
+        Log.i(TAG_BUILDER, "First Word: " + newFirstWord.getText().toString());
+        Log.i(TAG_BUILDER, "Last  Word: " + newLastWord.getText().toString());
+        Log.i(TAG_BUILDER, "Building Word Chain . . .");
+
+        if (newFirstWord.getText().toString().length() < 3) {
+            Log.e(TAG_BUILDER, "String too short! Abort!!!");
+        }
+
+        wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString());
+
         display();
     }
 
     public void save(View view) {
-        //TEST:
-        EditText currentWord = (EditText) findViewById(R.id.currentWord);
-        if (wordChain.dictionary.lookUpCommon(currentWord.getText().toString())) {
-            wordChain.next(currentWord.getText().toString());
-            display();
-        } else if (wordChain.dictionary.lookUpAll(currentWord.getText().toString())) {
-            wordChain.next(currentWord.getText().toString());
-            display();
-        } else {
-            Toast.makeText(getApplicationContext(), "Invalid word", Toast.LENGTH_SHORT).show();
-        }
-        //wordChain.save();
+
+        wordChain.save();
     }
 
     public void listSave (View view){
