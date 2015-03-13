@@ -8,6 +8,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
+import java.nio.Buffer;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -34,11 +42,9 @@ public class WordChain {
     WordChain(String first, String last) {
         setFirstWord(first);
         setLastWord(last);
+        setWordLength(getFirstWord().length());
         Context context = GlobalVars.getAppContext();
-        dictionary = new Dictionary(context, first);
-        if(first.length() == last.length()) {
-            setWordLength(getFirstWord().length());
-        }
+        dictionary = new Dictionary(context, getWordLength());
         //else: throw some sort of error
         chain.add(firstWord);
         setPoints(0);
@@ -91,6 +97,6 @@ public class WordChain {
     }
 
     public void save() {
-        //save to a text file
+
     }
 }

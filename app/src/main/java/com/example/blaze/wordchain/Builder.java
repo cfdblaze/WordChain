@@ -45,6 +45,10 @@ public class Builder extends ActionBarActivity {
         //wordChain.save();
     }
 
+    public void listSave (View view){
+        wordChain.save();
+    }
+
     public void undo(View view) {
         wordChain.undo();
         display();
