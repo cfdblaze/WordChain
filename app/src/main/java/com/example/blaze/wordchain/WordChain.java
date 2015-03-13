@@ -34,12 +34,10 @@ public class WordChain {
     WordChain(String first, String last) {
         setFirstWord(first);
         setLastWord(last);
+        setWordLength(getFirstWord().length());
         Context context = GlobalVars.getAppContext();
-        dictionary = new Dictionary(context, first);
-        if(first.length() == last.length()) {
-            setWordLength(getFirstWord().length());
-        }
-        //else: throw some sort of error
+        dictionary = new Dictionary(context, getWordLength());
+
         chain.add(firstWord);
         setPoints(0);
     }

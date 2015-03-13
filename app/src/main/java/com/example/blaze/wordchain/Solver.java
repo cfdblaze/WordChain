@@ -13,7 +13,7 @@ public class Solver extends ActionBarActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_solve_page);
+        setContentView(R.layout.activity_solver);
 
         Intent intent = getIntent();
     }

@@ -33,6 +33,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 import javax.xml.parsers.ParserConfigurationException;
 
 import android.content.res.AssetManager;
+import android.util.Log;
 
 /**
  * Created by Blaze on 2/21/2015.
@@ -117,18 +118,21 @@ public class Dictionary {
     //    else
     //        return false;
     //}
-    Dictionary(Context context, String frontWord){
+    Dictionary(Context context, Integer wordLength){
         BufferedReader br = null;
         try {
             String filename = null;
-            if (frontWord.length() == 3) {
+            if (wordLength == 3) {
                 filename = "three_letter_words.txt";
             }
-            if (frontWord.length() == 4) {
+            else if (wordLength == 4) {
                 filename = "four_letter_words.txt";
             }
-            if (frontWord.length() == 5) {
+            else if (wordLength == 5) {
                 filename = "five_letter_words.txt";
+            }
+            else {
+                Log. e("DICTIONARY", "Word too short!!! Abort!!!");
             }
             InputStream fin = context.getAssets().open(filename);
             br = new BufferedReader(new InputStreamReader(fin));
