@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -42,7 +43,7 @@ public class Builder extends ActionBarActivity {
     private void getFirstWord() {
         //Get First Word dialog box
         newFirstWord = new EditText(this);
-        AlertDialog.Builder firstWordBuilder = new AlertDialog.Builder(this);
+        final AlertDialog.Builder firstWordBuilder = new AlertDialog.Builder(this);
         firstWordBuilder.setTitle("First Word");
         firstWordBuilder.setCancelable(false);
 
@@ -54,7 +55,9 @@ public class Builder extends ActionBarActivity {
         firstWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG_BUILDER, "First Word: " + newFirstWord.getText().toString());
+                if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
+                    Log.e(TAG_BUILDER, "Invalid word!!!");
+                }
                 getLastWord();
             }
         });
@@ -89,7 +92,9 @@ public class Builder extends ActionBarActivity {
         lastWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Log.i(TAG_BUILDER, "Last  Word: " + newLastWord.getText().toString());
+                if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
+                    Log.e(TAG_BUILDER, "Invalid word!!!");
+                }
                 createWordChain();
             }
         });
@@ -107,9 +112,12 @@ public class Builder extends ActionBarActivity {
     }
 
     private void createWordChain() {
+//        if(!Dictionary.lookUpAll(newFirstWord.getText().toString()))
+//        {
+//            getFirstWord();
+//        }
         Log.i(TAG_BUILDER, "First Word: " + newFirstWord.getText().toString());
         Log.i(TAG_BUILDER, "Last  Word: " + newLastWord.getText().toString());
-        Log.i(TAG_BUILDER, "Building Word Chain . . .");
 
         if (newFirstWord.getText().toString().length() < 3) {
             Log.e(TAG_BUILDER, "String too short! Abort!!!");
@@ -156,6 +164,8 @@ public class Builder extends ActionBarActivity {
                     public void run() {
                         TextView lastWordText = (TextView) findViewById(R.id.lastWord);
                         lastWordText.setText(wordChain.getLastWord());
+                        Button currentWordButton = (Button) findViewById(R.id.currentWordButton);
+                        currentWordButton.setText(wordChain.getFirstWord());
                         list.setAdapter(adapter);
                     }
                 });

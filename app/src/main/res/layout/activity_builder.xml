@@ -46,7 +46,7 @@
         android:layout_centerHorizontal="true"
         android:layout_below="@+id/undoButton"
         android:textAlignment="center"
-        android:layout_above="@+id/button"
+        android:layout_above="@+id/currentWordButton"
         android:layout_gravity="center_vertical" />
 
     <TextView
@@ -61,8 +61,7 @@
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button"
+        android:id="@+id/currentWordButton"
         android:layout_above="@+id/lastWord"
         android:layout_centerHorizontal="true" />
 
