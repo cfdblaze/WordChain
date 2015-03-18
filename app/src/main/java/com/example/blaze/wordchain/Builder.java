@@ -145,11 +145,6 @@ public class Builder extends ActionBarActivity {
     }
 
     public void save(View view) {
-
-        wordChain.save();
-    }
-
-    public void listSave (View view){
         wordChain.save();
     }
 

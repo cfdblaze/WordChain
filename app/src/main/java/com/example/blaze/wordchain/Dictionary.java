@@ -36,7 +36,7 @@ import android.content.res.AssetManager;
 import android.util.Log;
 
 /**
- * Created by Blaze on 2/21/2015.
+ * Created by Corey on 2/21/2015.
  */
 public class Dictionary {
     private ArrayList<String> commonWordList = new ArrayList<>();
@@ -44,6 +44,12 @@ public class Dictionary {
     public static void setWordXML(String xmlPass){
         wordXML = xmlPass;
     }
+
+    /**
+     * Checks if the word is on a list of common words
+     * @param wordCheck - word to be checked
+     * @return whether the word is considered common
+     */
     public boolean lookUpCommon(String wordCheck){
         if (commonWordList.contains(wordCheck)){
             return true;
@@ -52,6 +58,12 @@ public class Dictionary {
             return false;
         }
     };
+
+    /**
+     * Uses on online dictionary API to see if the word exists at all
+     * @param wordCheck - word to be checked
+     * @return whether the word exists
+     */
     public static boolean lookUpAll(String wordCheck){
         final String wordLook = wordCheck;
         final Thread checkThread = new Thread() {
@@ -93,32 +105,12 @@ public class Dictionary {
         Log.i("Dictionary", "Online dictionary XML: " + wordXML);
         return wordXML.contains("<def>");
     };
-    //public boolean parseXML(String XMLToParse) {
-    //    System.out.println("Data reads: " + XMLToParse);
-    //    DocumentBuilderFactory dbfactory = DocumentBuilderFactory.newInstance();
-    //    DocumentBuilder dbuilder = null;
-    //    Tester tester = new Tester();
-    //    tester.testXML(XMLToParse);
-    //    try {
-    //        dbuilder = dbfactory.newDocumentBuilder();
-    //    } catch (ParserConfigurationException e) {
-    //       System.out.println("Parser misconfigured.");
-    //    }
-    //    Document doc = null;
-    //    try {
-    //        doc = dbuilder.parse(XMLToParse);
-    //    } catch (IOException e) {
-    //        System.out.println("I/O Error.");
-    //    }
-    //    catch (SAXException e) {
-    //        System.out.println("SAX Exception.");
-    //    }
-    //    NodeList nList = doc.getElementsByTagName("def");
-    //    if (nList.getLength() > 0)
-    //        return true;
-    //    else
-    //        return false;
-    //}
+
+    /**
+     * Nondefault constructor
+     * @param context - passes MainActivity.this context to use files
+     * @param wordLength - used to get list of common words
+     */
     Dictionary(Context context, int wordLength){
         BufferedReader br = null;
         try {

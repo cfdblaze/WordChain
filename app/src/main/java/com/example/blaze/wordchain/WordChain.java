@@ -8,6 +8,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.io.BufferedReader;
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.FileReader;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.io.OutputStream;
+import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -31,6 +44,11 @@ public class WordChain {
 
     }
 
+    /**
+     * Basic constructor
+     * @param first - the first word in the chain
+     * @param last - the last or "target" word in the chain
+     */
     WordChain(String first, String last) {
         setFirstWord(first);
         setLastWord(last);
@@ -50,21 +68,30 @@ public class WordChain {
     public void setWordLength(Integer newWordLength)    { wordLength = newWordLength; }
     public void setPoints(Integer newPoints)            { points = newPoints; }
 
+    /**
+     * Removes the most recently added word from the list
+     */
     public void undo() {
         if (chain != null && !chain.isEmpty() && chain.size() > 1) { //if there is something in the array other than the first word. . .
             chain.remove(chain.size() - 1); //. . .delete the most recent word
         }
     }
 
+    /**
+     * delete everything but the first word
+     */
     public void clear() {
-        //delete everything but the first word
         chain.clear();
         chain.add(firstWord); //put the first word back
 
     }
 
+    /**
+     * Checks to ensure a word is valid (usually used before adding)
+     * @param currentWord - the word being validated
+     * @return whether or not the word is valid
+     */
     private boolean validate(String currentWord) {
-        //dictionary look up
         if (currentWord.length() == getWordLength()) {
             return true;
         }
@@ -73,6 +100,11 @@ public class WordChain {
         }
     }
 
+    /**
+     * Adds a word to the chain
+     * @param currentWord - the word the user is attempting to add
+     * @return whether the word was successfully added
+     */
     public boolean next(String currentWord) {
         if (validate(currentWord)) {
             chain.add(currentWord); //if it is valid, append it to the array
@@ -87,7 +119,44 @@ public class WordChain {
         return null;
     }
 
+    /**
+     * Writes the chain into a file, converting it into a String beforehand
+     */
     public void save() {
-        //save to a text file
+        Context context = GlobalVars.getAppContext();
+        String fullList = "";
+        int i;
+        chain.add(chain.size(), getLastWord());
+        File file = new File(context.getFilesDir(), "chainList.txt");
+        for (i = 0; i < chain.size(); i++) {
+            fullList = fullList + chain.get(i) + " ";
+        }
+        BufferedWriter fout = null;
+        try {
+            fout = new BufferedWriter(new FileWriter(file));
+            fout.write(fullList);
+            fout.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //From here, doing a read - transfer to Loader
+        String nextline = "";
+        BufferedReader br = null;
+        try {
+            File loadFile = new File(context.getFilesDir(), "chainList.txt");
+            br = new BufferedReader(new FileReader(loadFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            while ((nextline = br.readLine()) != null) {
+                System.out.println(nextline);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }
