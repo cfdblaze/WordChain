@@ -40,8 +40,8 @@ import android.util.Log;
  */
 public class Dictionary {
     private ArrayList<String> commonWordList = new ArrayList<>();
-    private String wordXML = null;
-    public void setWordXML(String xmlPass){
+    private static String wordXML = null;
+    public static void setWordXML(String xmlPass){
         wordXML = xmlPass;
     }
     public boolean lookUpCommon(String wordCheck){
@@ -52,7 +52,7 @@ public class Dictionary {
             return false;
         }
     };
-    public boolean lookUpAll(String wordCheck){
+    public static boolean lookUpAll(String wordCheck){
         final String wordLook = wordCheck;
         final Thread checkThread = new Thread() {
             @Override
