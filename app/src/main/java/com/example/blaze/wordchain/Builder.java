@@ -169,7 +169,7 @@ public class Builder extends ActionBarActivity {
 
             @Override
             protected String doInBackground(String... params) {
-                final ListView list = (ListView) findViewById(R.id.lastWord);
+                final ListView list = (ListView) findViewById(R.id.listView);
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
 
