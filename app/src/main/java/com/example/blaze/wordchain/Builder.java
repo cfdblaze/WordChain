@@ -1,7 +1,6 @@
 package com.example.blaze.wordchain;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -15,20 +14,25 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.GridLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-import android.widget.Toast;
+//For Dynamically Creating Buttons
+import android.widget.RelativeLayout;
 
-import java.io.IOException;
-import java.util.ArrayList;
-
-
+/**
+ * This class is linked to the Builder page that allows the user
+ * to create a word chain. It will read words into a list and
+ * have the user add words using pop up boxes and buttons. The
+ * class also contains undo, clear, and save capabilities.
+ */
 public class Builder extends ActionBarActivity {
 
     private static final String TAG_BUILDER = "Builder";
     private WordChain wordChain;
     private EditText newFirstWord;
     private EditText newLastWord;
+    public GridLayout grid;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -36,10 +40,14 @@ public class Builder extends ActionBarActivity {
         setContentView(R.layout.activity_builder);
 
         Intent intent = getIntent();
-
+        //grid = (GridLayout) findViewById(R.id.currentWordButtonsLayout);
         getFirstWord();
     }
 
+    /**
+     * This method creates a popup box that prompts the user for the first word
+     * of their word chain. It then calls getLastWord() after it finishes.
+     */
     private void getFirstWord() {
         //Get First Word dialog box
         newFirstWord = new EditText(this);
@@ -77,6 +85,10 @@ public class Builder extends ActionBarActivity {
 
     }
 
+    /**
+     * This method creates a popup box that prompts the user for the last word
+     * of their word chain. It then calls createWordChain() after it finishes.
+     */
     private void getLastWord() {
         //Get Last Word dialog box
         newLastWord = new EditText(this);
@@ -111,6 +123,10 @@ public class Builder extends ActionBarActivity {
         //lastWordPopUp.show();
     }
 
+    /**
+     * After the two dialog boxes have gotten the first and last word, this method
+     * creates the word chain using the member first and last word.
+     */
     private void createWordChain() {
 //        if(!Dictionary.lookUpAll(newFirstWord.getText().toString()))
 //        {
@@ -144,9 +160,8 @@ public class Builder extends ActionBarActivity {
     }
 
     /**
-     * Function: Display
-     *
-     * Uses and AsyncLoad to reload the ListView in the background every time a word is changed
+     *  Uses and AsyncLoad to reload the ListView in the background every time a word is changed
+     *  or a button is pressed.
      */
     public void display() {
 
@@ -154,7 +169,7 @@ public class Builder extends ActionBarActivity {
 
             @Override
             protected String doInBackground(String... params) {
-                final ListView list = (ListView) findViewById(R.id.listView);
+                final ListView list = (ListView) findViewById(R.id.lastWord);
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
 
@@ -164,8 +179,7 @@ public class Builder extends ActionBarActivity {
                     public void run() {
                         TextView lastWordText = (TextView) findViewById(R.id.lastWord);
                         lastWordText.setText(wordChain.getLastWord());
-                        Button currentWordButton = (Button) findViewById(R.id.currentWordButton);
-                        currentWordButton.setText(wordChain.getFirstWord());
+                        //createWordButtons(currentWord);
                         list.setAdapter(adapter);
                     }
                 });
@@ -173,6 +187,46 @@ public class Builder extends ActionBarActivity {
             }
         }
         new AsyncLoad().execute();
+    }
+
+    /** This method dynamically creates either three, four, or five buttons for
+     * the current word, depending on the word length of the first and last words.
+     *
+     * @param currentWord word to spell out on the buttons
+     */
+    public void createWordButtons(String currentWord) {
+
+        //grid.rowCount(wordChain.getWordLength());
+        for(Integer i = 0; i < wordChain.getWordLength(); i++) {
+            // Creating a new Left Button
+            Button button = new Button(this);
+            button.setText(currentWord.toCharArray()[i]);
+
+            addButtonLayout(button, RelativeLayout.ALIGN_PARENT_LEFT);
+
+            //RelativeLayout.addView(button);
+        }
+
+    }
+
+    private void LayoutAddButton(Button button, int centerInParent, int marginLeft, int marginTop, int marginRight, int marginBottom) {
+
+        // Defining the layout parameters of the Button
+        RelativeLayout.LayoutParams buttonLayoutParameters = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
+
+        // Add Margin to the LayoutParameters
+        buttonLayoutParameters.setMargins(marginLeft, marginTop, marginRight, marginBottom);
+
+        // Add Rule to Layout
+        buttonLayoutParameters.addRule(centerInParent);
+
+        // Setting the parameters on the Button
+        button.setLayoutParams(buttonLayoutParameters);
+
+    }
+
+    private void addButtonLayout(Button button, int centerInParent) {
+        LayoutAddButton(button, centerInParent, 0, 0, 0, 0);
     }
 
     @Override

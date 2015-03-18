@@ -20,16 +20,31 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
     }
 
+    /**
+     * This method is called when the "Build" button on the main
+     * page is selected, and starts a new activity.
+     * @param view
+     */
     public void build(View view) {
         Intent build = new Intent(this, Builder.class);
         startActivity(build);
     }
 
+    /**
+     * This method is called when the "Solve" button on the main
+     * page is selected, and starts a new activity.
+     * @param view
+     */
     public void solve(View view) {
         Intent solve = new Intent(this, Solver.class);
         startActivity(solve);
     }
 
+    /**
+     * This method is called when the "Load" button on the main
+     * page is selected, and starts a new activity.
+     * @param view
+     */
     public void load(View view) {
         Intent load = new Intent(this, Loader.class);
         startActivity(load);
