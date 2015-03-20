@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.hardware.input.InputManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
@@ -53,7 +55,6 @@ public class Builder extends ActionBarActivity {
         Intent intent = getIntent();
 
         getFirstWord();
-        //grid.setRowCount(wordChain.getWordLength());
     }
 
     /**
@@ -82,9 +83,7 @@ public class Builder extends ActionBarActivity {
             }
         });
 
-        Log.i(TAG_BUILDER, "Starting call to show");
         firstWordBuilder.show();
-        Log.i(TAG_BUILDER, "After call to show");
 
     }
 
@@ -135,7 +134,7 @@ public class Builder extends ActionBarActivity {
             Log.e(TAG_BUILDER, "String too short! Abort!!!");
         }
 
-        wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString());
+        wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString(), null);
 
         display();
     }
@@ -153,6 +152,14 @@ public class Builder extends ActionBarActivity {
         wordChain.clear();
         display();
     }
+
+    public void next(View view, int position) {
+        EditText editText = (EditText) findViewById(R.id.pretend_edit_text);
+        //String letter = " ";
+        //InputManager inputManager = (InputManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+
+        //inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+   }
 
     /**
      *  Uses and AsyncLoad to reload the ListView in the background every time a word is changed
@@ -183,8 +190,8 @@ public class Builder extends ActionBarActivity {
             }
         }
         new AsyncLoad().execute();
-        String currentWord = "words";
-        createWordButtons(currentWord);
+        //String currentWord = "words";
+        createWordButtons(wordChain.getCurrentWord());
     }
 
     /** This method dynamically creates either three, four, or five buttons for
@@ -208,8 +215,9 @@ public class Builder extends ActionBarActivity {
         grid.setAdapter(adapter);
 
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-                Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+                next(view, position);
             }
         });
     }

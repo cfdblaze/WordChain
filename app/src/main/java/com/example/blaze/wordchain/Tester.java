@@ -8,7 +8,7 @@ import junit.framework.Assert;
 public class Tester {
 
 
-    private WordChain wordChain = new WordChain("warm", "cold");
+    private WordChain wordChain = new WordChain("warm", "cold", null);
 
     public boolean testXML(String XMLVerify) {
         Assert.assertNotNull(XMLVerify);

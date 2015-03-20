@@ -18,6 +18,7 @@ import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 
@@ -49,7 +50,8 @@ public class Loader extends ActionBarActivity {
                 System.out.println(nextline);
                 nextArray = nextline.split(" ");
                 int arraySize = nextArray.length - 1;
-                tempChain = new WordChain(nextArray[0], nextArray[arraySize]);
+                ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(nextArray));
+                tempChain = new WordChain(nextArray[0], nextArray[arraySize], stringList);
                 list.add(tempChain);
             }
             br.close();

@@ -9,7 +9,7 @@ import android.view.MenuItem;
 
 public class Solver extends ActionBarActivity {
 
-    private WordChain wordChain = new WordChain("warm", "cold");
+    private WordChain wordChain = new WordChain("warm", "cold", null);
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

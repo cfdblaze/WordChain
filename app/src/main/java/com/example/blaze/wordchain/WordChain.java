@@ -28,6 +28,7 @@ public class WordChain {
 
     private String firstWord;
     private String lastWord;
+    private String currentWord;
     private Integer wordLength;
     public List<String> chain = new ArrayList<>();
     public Dictionary dictionary;
@@ -49,21 +50,29 @@ public class WordChain {
      * @param first - the first word in the chain
      * @param last - the last or "target" word in the chain
      */
-    WordChain(String first, String last) {
+    WordChain(String first, String last, ArrayList<String> arrayList) {
         setFirstWord(first);
+        setCurrentWord(first);
         setLastWord(last);
         setWordLength(getFirstWord().length());
         Context context = GlobalVars.getAppContext();
         dictionary = new Dictionary(context, getWordLength());
-        chain.add(firstWord);
+        if (arrayList == null) {
+            chain.add(firstWord);
+        }
+        else {
+            chain = arrayList;
+        }
         setPoints(0);
     }
 
     public String  getFirstWord()                       { return firstWord; }
+    public String  getCurrentWord()                     { return chain.get(chain.size() - 1); }
     public String  getLastWord()                        { return lastWord; }
     public Integer getWordLength()                      { return wordLength; }
     public Integer getPoints()                          { return points; }
     public void setFirstWord(String newFirstWord)       { firstWord = newFirstWord; }
+    public void setCurrentWord(String newCurrentWord)   { currentWord = newCurrentWord; }
     public void setLastWord(String newLastWord)         { lastWord = newLastWord; }
     public void setWordLength(Integer newWordLength)    { wordLength = newWordLength; }
     public void setPoints(Integer newPoints)            { points = newPoints; }
