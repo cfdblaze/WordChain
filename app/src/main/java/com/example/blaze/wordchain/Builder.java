@@ -1,6 +1,7 @@
 package com.example.blaze.wordchain;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -8,17 +9,26 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.InputType;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.GridLayout;
+import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 //For Dynamically Creating Buttons
 import android.widget.RelativeLayout;
+import android.widget.Toast;
+
+import java.util.ArrayList;
 
 /**
  * This class is linked to the Builder page that allows the user
@@ -32,7 +42,8 @@ public class Builder extends ActionBarActivity {
     private WordChain wordChain;
     private EditText newFirstWord;
     private EditText newLastWord;
-    public GridLayout grid;
+    public GridView grid;
+    ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,8 +51,9 @@ public class Builder extends ActionBarActivity {
         setContentView(R.layout.activity_builder);
 
         Intent intent = getIntent();
-        //grid = (GridLayout) findViewById(R.id.currentWordButtonsLayout);
+
         getFirstWord();
+        //grid.setRowCount(wordChain.getWordLength());
     }
 
     /**
@@ -69,19 +81,10 @@ public class Builder extends ActionBarActivity {
                 getLastWord();
             }
         });
-//        firstWordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
 
         Log.i(TAG_BUILDER, "Starting call to show");
         firstWordBuilder.show();
         Log.i(TAG_BUILDER, "After call to show");
-
-        //AlertDialog firstWordPopUp = firstWordBuilder.create();
-        //firstWordPopUp.show();
 
     }
 
@@ -108,19 +111,12 @@ public class Builder extends ActionBarActivity {
                     Log.e(TAG_BUILDER, "Invalid word!!!");
                 }
                 createWordChain();
+
             }
         });
-//        lastWordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                dialog.cancel();
-//            }
-//        });
 
         lastWordBuilder.show();
 
-        //AlertDialog lastWordPopUp = lastWordBuilder.create();
-        //lastWordPopUp.show();
     }
 
     /**
@@ -167,7 +163,7 @@ public class Builder extends ActionBarActivity {
         class AsyncLoad extends AsyncTask<String, Integer, String> {
 
             @Override
-            protected String doInBackground(String... params) {
+             protected String doInBackground(String... params) {
                 final ListView list = (ListView) findViewById(R.id.listView);
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
@@ -178,14 +174,17 @@ public class Builder extends ActionBarActivity {
                     public void run() {
                         TextView lastWordText = (TextView) findViewById(R.id.lastWord);
                         lastWordText.setText(wordChain.getLastWord());
-                        //createWordButtons(currentWord);
+
                         list.setAdapter(adapter);
                     }
                 });
+
                 return null;
             }
         }
         new AsyncLoad().execute();
+        String currentWord = "words";
+        createWordButtons(currentWord);
     }
 
     /** This method dynamically creates either three, four, or five buttons for
@@ -195,37 +194,24 @@ public class Builder extends ActionBarActivity {
      */
     public void createWordButtons(String currentWord) {
 
-        //grid.rowCount(wordChain.getWordLength());
-        for(Integer i = 0; i < wordChain.getWordLength(); i++) {
-            // Creating a new Left Button
-            Button button = new Button(this);
-            button.setText(currentWord.toCharArray()[i]);
+        grid = (GridView) findViewById(R.id.currentWordButtons);
 
-            addButtonLayout(button, RelativeLayout.ALIGN_PARENT_LEFT);
-
-            //RelativeLayout.addView(button);
+        grid.setNumColumns(wordChain.getWordLength());
+        final String[] currentWordArray = new String[wordChain.getWordLength()];
+        char[] currentWordLetters = currentWord.toCharArray();
+        for (Integer i = 0; i < wordChain.getWordLength(); i++) {
+            currentWordArray[i] = "" + currentWordLetters[i];
         }
 
-    }
+        adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currentWordArray);
 
-    private void LayoutAddButton(Button button, int centerInParent, int marginLeft, int marginTop, int marginRight, int marginBottom) {
+        grid.setAdapter(adapter);
 
-        // Defining the layout parameters of the Button
-        RelativeLayout.LayoutParams buttonLayoutParameters = new RelativeLayout.LayoutParams(RelativeLayout.LayoutParams.WRAP_CONTENT, RelativeLayout.LayoutParams.WRAP_CONTENT);
-
-        // Add Margin to the LayoutParameters
-        buttonLayoutParameters.setMargins(marginLeft, marginTop, marginRight, marginBottom);
-
-        // Add Rule to Layout
-        buttonLayoutParameters.addRule(centerInParent);
-
-        // Setting the parameters on the Button
-        button.setLayoutParams(buttonLayoutParameters);
-
-    }
-
-    private void addButtonLayout(Button button, int centerInParent) {
-        LayoutAddButton(button, centerInParent, 0, 0, 0, 0);
+        grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+                Toast.makeText(getApplicationContext(), ((TextView) v).getText(), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     @Override
