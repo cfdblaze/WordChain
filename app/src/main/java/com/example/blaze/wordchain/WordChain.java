@@ -133,28 +133,12 @@ public class WordChain {
         }
         BufferedWriter fout = null;
         try {
-            fout = new BufferedWriter(new FileWriter(file));
+            fout = new BufferedWriter(new FileWriter(file, true));
+            fout.newLine();
             fout.write(fullList);
             fout.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        //From here, doing a read - transfer to Loader
-        String nextline = "";
-        BufferedReader br = null;
-        try {
-            File loadFile = new File(context.getFilesDir(), "chainList.txt");
-            br = new BufferedReader(new FileReader(loadFile));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            while ((nextline = br.readLine()) != null) {
-                System.out.println(nextline);
-            }
-            br.close();
         } catch (IOException e) {
             e.printStackTrace();
         }

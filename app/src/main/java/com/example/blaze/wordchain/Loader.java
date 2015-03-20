@@ -1,5 +1,6 @@
 package com.example.blaze.wordchain;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
@@ -13,6 +14,7 @@ import android.widget.ProgressBar;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
@@ -26,66 +28,48 @@ public class Loader extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_loader);
-
-        Intent intent = getIntent();
+        load();
     }
 
     public void load() {
-//      Eliska's code from Multithread assignment:
-//
-//        public void load(View view) {
-//
-//            class AsyncLoad extends AsyncTask<String, Integer, String> {
-//
-//                ProgressBar progress = (ProgressBar) findViewById(R.id.progressBar);
-//
-//                @Override
-//                protected String doInBackground(String... params) {
-//                    String fileName = "numbers.txt";
-//                    File file = new File(getFilesDir(), fileName);
-//
-//                    String[] readNumbers = new String[10];
-//                    final ArrayList<String> arrayList = new ArrayList();
-//
-//                    try {
-//                        BufferedReader inputReader = new BufferedReader(new InputStreamReader(openFileInput(fileName)));
-//                        String inputString;
-//                        StringBuffer stringBuffer = new StringBuffer();
-//                        while ((inputString = inputReader.readLine()) != null) {
-//
-//                            arrayList.add(inputString);
-//                            Thread.sleep(250);
-//                        }
-//                    } catch (IOException e) {
-//                        e.printStackTrace();
-//                    } catch (InterruptedException e) {
-//                        e.printStackTrace();
-//                    }
-//                    final ListView list = (ListView) findViewById(R.id.listView);
-//
-//                    final ArrayAdapter<String> adapter = new ArrayAdapter<String>(MainActivity.this, android.R.layout.simple_list_item_1, arrayList);
-//
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            list.setAdapter(adapter);
-//                        }
-//                    });
-//                    return null;
-//                }
-//
-//                @Override
-//                protected void onProgressUpdate(Integer... values) {
-//                    progress.setProgress(values[0]);
-//                }
-//            }
-//            new AsyncLoad().execute();
-//        }
-
+        Context context = GlobalVars.getAppContext();
+        String nextline = "";
+        int i = 0;
+        String nextArray[];
+        WordChain tempChain = null;
+        BufferedReader br = null;
+        try {
+            File loadFile = new File(context.getFilesDir(), "chainList.txt");
+            br = new BufferedReader(new FileReader(loadFile));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            while ((nextline = br.readLine()) != null) {
+                System.out.println(nextline);
+                nextArray = nextline.split(" ");
+                int arraySize = nextArray.length - 1;
+                tempChain = new WordChain(nextArray[0], nextArray[arraySize]);
+                list.add(tempChain);
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        displayList();
     }
 
     public void displayList() {
-
+        Context context = GlobalVars.getAppContext();
+        ArrayList<String> arrayList = new ArrayList<>();
+        String line;
+        for(int i = 0; i < list.size(); i++) {
+            line = list.get(i).getFirstWord() + " -> " + list.get(i).getLastWord();
+            arrayList.add(line);
+        }
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, arrayList);
+        ListView writeScreen = (ListView) findViewById(R.id.listView);
+        writeScreen.setAdapter(adapter);
     }
 
 
