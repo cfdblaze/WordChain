@@ -52,9 +52,22 @@ public class Builder extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_builder);
 
+
         Intent intent = getIntent();
 
-        getFirstWord();
+        Bundle bundle = getIntent().getExtras();
+
+        if(bundle.isEmpty()) {
+            getFirstWord();
+        }
+        else {
+            String newFirstWord = bundle.getString("firstWord");
+            String newLastWord = bundle.getString("lastWord");
+            ArrayList<String> newWordList = bundle.getStringArrayList("wordChain");
+            newWordList.remove(newWordList.size() - 1);
+            wordChain = new WordChain(newFirstWord, newLastWord, newWordList);
+            display();
+        }
     }
 
     /**
