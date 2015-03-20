@@ -30,7 +30,7 @@ public class WordChain {
     private String lastWord;
     private String currentWord;
     private Integer wordLength;
-    public List<String> chain = new ArrayList<>();
+    public ArrayList<String> chain = new ArrayList<>();
     public Dictionary dictionary;
     private Integer points;
 
