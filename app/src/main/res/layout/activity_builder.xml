@@ -76,12 +76,14 @@
         android:layout_height="wrap_content"
         android:id="@+id/pretend_edit_text"
         android:layout_above="@+id/lastWord"
-        android:layout_below="@+id/currentWordButtons"
         android:layout_alignLeft="@+id/lastWord"
         android:layout_alignStart="@+id/lastWord"
         android:gravity="center"
         android:editable="false"
-        android:visibility="invisible" />
+        android:visibility="invisible"
+        android:layout_alignTop="@+id/lastWord"
+        android:layout_alignRight="@+id/lastWord"
+        android:layout_alignEnd="@+id/lastWord" />
 
     <!--
     <GridView

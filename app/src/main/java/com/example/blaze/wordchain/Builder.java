@@ -8,13 +8,17 @@ import android.hardware.input.InputManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.InputType;
+import android.text.TextWatcher;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -57,7 +61,7 @@ public class Builder extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
 
-        if(bundle.isEmpty()) {
+        if(bundle == null) {
             getFirstWord();
         }
         else {
@@ -166,12 +170,56 @@ public class Builder extends ActionBarActivity {
         display();
     }
 
-    public void next(View view, int position) {
-        EditText editText = (EditText) findViewById(R.id.pretend_edit_text);
-        //String letter = " ";
-        //InputManager inputManager = (InputManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+    public void next(View view, int position, String currentWord) {
 
-        //inputManager.showSoftInput(editText, InputMethodManager.SHOW_IMPLICIT);
+        wordChain.next(currentWord);
+        display();
+//        final EditText pretendEditText = (EditText) findViewById(R.id.pretend_edit_text);
+//        pretendEditText.requestFocus();
+//
+//        final View v = view;
+//        final int childPosition = position;
+////        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+////        imm.showSoftInput(pretendEditText, InputMethodManager.SHOW_IMPLICIT);
+//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+//
+//        pretendEditText.addTextChangedListener(new TextWatcher() {
+//
+//            public void afterTextChanged(Editable s) {
+//            }
+//
+//            public void beforeTextChanged(CharSequence s, int start,
+//                                          int count, int after) {
+//            }
+//
+//            public void onTextChanged(CharSequence s, int start, int before, int count) {
+//
+//                TextView letterToChange = (TextView) v;
+//                letterToChange.setText(s.charAt(0) + "");
+//                pretendEditText.clearFocus();
+//
+//            }
+//        });
+////        pretendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+////            @Override
+////            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+////                if (actionId == EditorInfo.IME_ACTION_DONE) {
+////                    pretendEditText.clearFocus();
+////
+////                    TextView letterToChange = (TextView) v;
+////                    letterToChange.setText(s.charAt(0));
+////
+////                    return true;
+////                }
+////                return false;
+////            }
+////        });
+//
+//        Log.i(TAG_BUILDER, "In Pretend Letter Spot: " + pretendEditText.getText().toString());
+//        char[] letters = pretendEditText.getText().toString().toCharArray();
+//
+
    }
 
     /**
@@ -230,7 +278,21 @@ public class Builder extends ActionBarActivity {
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                next(view, position);
+                //next(view, position);
+                TextView t = (TextView) view;
+
+                String nextWord = "";
+                TextView gridChild = null;
+//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+//                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
+                t.setText('w' + "");
+                view.clearFocus();
+                for (Integer i = 0; i < wordChain.getWordLength(); i++) {
+                    gridChild = (TextView) grid.getChildAt(i);
+                    nextWord += gridChild.getText();
+                }
+                next(view, position, nextWord);
+
             }
         });
     }
