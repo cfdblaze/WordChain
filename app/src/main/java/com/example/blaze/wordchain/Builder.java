@@ -48,6 +48,8 @@ public class Builder extends ActionBarActivity {
     private WordChain wordChain;
     private EditText newFirstWord;
     private EditText newLastWord;
+    private TextView currentChildView;
+    private EditText newLetter;
     public GridView grid;
     ArrayAdapter<String> adapter;
 
@@ -170,57 +172,13 @@ public class Builder extends ActionBarActivity {
         display();
     }
 
-    public void next(View view, int position, String currentWord) {
+    public void next(String currentWord) {
 
+        Log.e(TAG_BUILDER, "Current Word in Next: " + currentWord);
         wordChain.next(currentWord);
+        Log.e(TAG_BUILDER, "Current Word after Next: " + wordChain.getCurrentWord());
         display();
-//        final EditText pretendEditText = (EditText) findViewById(R.id.pretend_edit_text);
-//        pretendEditText.requestFocus();
-//
-//        final View v = view;
-//        final int childPosition = position;
-////        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-////        imm.showSoftInput(pretendEditText, InputMethodManager.SHOW_IMPLICIT);
-//        InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//        imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-//
-//        pretendEditText.addTextChangedListener(new TextWatcher() {
-//
-//            public void afterTextChanged(Editable s) {
-//            }
-//
-//            public void beforeTextChanged(CharSequence s, int start,
-//                                          int count, int after) {
-//            }
-//
-//            public void onTextChanged(CharSequence s, int start, int before, int count) {
-//
-//                TextView letterToChange = (TextView) v;
-//                letterToChange.setText(s.charAt(0) + "");
-//                pretendEditText.clearFocus();
-//
-//            }
-//        });
-////        pretendEditText.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-////            @Override
-////            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-////                if (actionId == EditorInfo.IME_ACTION_DONE) {
-////                    pretendEditText.clearFocus();
-////
-////                    TextView letterToChange = (TextView) v;
-////                    letterToChange.setText(s.charAt(0));
-////
-////                    return true;
-////                }
-////                return false;
-////            }
-////        });
-//
-//        Log.i(TAG_BUILDER, "In Pretend Letter Spot: " + pretendEditText.getText().toString());
-//        char[] letters = pretendEditText.getText().toString().toCharArray();
-//
-
-   }
+    }
 
     /**
      *  Uses and AsyncLoad to reload the ListView in the background every time a word is changed
@@ -251,7 +209,7 @@ public class Builder extends ActionBarActivity {
             }
         }
         new AsyncLoad().execute();
-        //String currentWord = "words";
+        Log.e(TAG_BUILDER, "Current Word calling Buttons: " + wordChain.getCurrentWord());
         createWordButtons(wordChain.getCurrentWord());
     }
 
@@ -262,8 +220,11 @@ public class Builder extends ActionBarActivity {
      */
     public void createWordButtons(String currentWord) {
 
+        //Get grid view
+        Log.e(TAG_BUILDER, "Current Word in Buttons: " + wordChain.getCurrentWord());
         grid = (GridView) findViewById(R.id.currentWordButtons);
 
+        //set and fill a string array
         grid.setNumColumns(wordChain.getWordLength());
         final String[] currentWordArray = new String[wordChain.getWordLength()];
         char[] currentWordLetters = currentWord.toCharArray();
@@ -271,30 +232,66 @@ public class Builder extends ActionBarActivity {
             currentWordArray[i] = "" + currentWordLetters[i];
         }
 
+        //Set adapter with the string array
+        Log.e(TAG_BUILDER, "Current Word Array before adapter: " + currentWordArray[0] + currentWordArray[1] + currentWordArray[2] + currentWordArray[3]);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currentWordArray);
-
         grid.setAdapter(adapter);
 
+        //When the user hits the button...
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
+                //Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
                 //next(view, position);
-                TextView t = (TextView) view;
+                currentChildView = (TextView) view;
 
-                String nextWord = "";
-                TextView gridChild = null;
-//                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
-//                imm.toggleSoftInput(InputMethodManager.SHOW_FORCED, InputMethodManager.HIDE_IMPLICIT_ONLY);
-                t.setText('w' + "");
-                view.clearFocus();
-                for (Integer i = 0; i < wordChain.getWordLength(); i++) {
-                    gridChild = (TextView) grid.getChildAt(i);
-                    nextWord += gridChild.getText();
-                }
-                next(view, position, nextWord);
+                //...Get New Letter dialog box...
+                newLetter = new EditText(Builder.this);
+                AlertDialog.Builder newLetterBuilder = new AlertDialog.Builder(Builder.this);
+                newLetterBuilder.setTitle("New Letter");
+                newLetterBuilder.setCancelable(false);
+                // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+                newLetter.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE | InputType.TYPE_CLASS_TEXT);
+                newLetterBuilder.setView(newLetter);
+                // Set up the button
+                newLetterBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String nextWord = "";
+                        TextView gridChild = null;
+                        char[] nextLetter = newLetter.getText().toString().toCharArray();
+                        Log.e(TAG_BUILDER, "New Letter: " + newLetter.getText().toString());
+                        runOnUiThread(new Runnable() {
+                            @Override
+                            public void run() {
 
+                                currentChildView.setText(newLetter.getText().toString());
+                                Log.e(TAG_BUILDER, "Grid Child new Letter: " + newLetter.getText().toString());
+                            }
+                        });
+                        currentChildView.setText(newLetter.getText().toString());
+
+
+                        //view.clearFocus();
+                        for (Integer i = 0; i < wordChain.getWordLength(); i++) {
+                            gridChild = (TextView) grid.getChildAt(i);
+                            nextWord += gridChild.getText();
+                        }
+
+                        Log.e(TAG_BUILDER, "Current Word: " + nextWord);
+                        next(nextWord);
+
+                        if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
+                            Log.e(TAG_BUILDER, "Invalid word!!!");
+                        }
+
+
+                    }
+                });
+                newLetterBuilder.show();
+                currentChildView.setText(newLetter.getText().toString());
             }
         });
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -116,7 +117,9 @@ public class WordChain {
      */
     public boolean next(String currentWord) {
         if (validate(currentWord)) {
+            Log.e("WORD_CHAIN", "Size Before: " + chain.size());
             chain.add(currentWord); //if it is valid, append it to the array
+            Log.e("WORD_CHAIN", "Size After:  " + chain.size());
             return true;
         }
         else {
