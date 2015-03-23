@@ -1,39 +1,22 @@
 package com.example.blaze.wordchain;
 
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.hardware.input.InputManager;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
-import android.text.Editable;
 import android.text.InputType;
-import android.text.TextWatcher;
 import android.util.Log;
-import android.view.KeyEvent;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.inputmethod.EditorInfo;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
-import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.EditText;
-import android.widget.GridLayout;
 import android.widget.GridView;
-import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
-//For Dynamically Creating Buttons
-import android.widget.RelativeLayout;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 
 /**
@@ -55,9 +38,9 @@ public class Builder extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_builder);
-
 
         Intent intent = getIntent();
 
@@ -81,6 +64,7 @@ public class Builder extends ActionBarActivity {
      * of their word chain. It then calls getLastWord() after it finishes.
      */
     private void getFirstWord() {
+
         //Get First Word dialog box
         newFirstWord = new EditText(this);
         final AlertDialog.Builder firstWordBuilder = new AlertDialog.Builder(this);
@@ -88,7 +72,7 @@ public class Builder extends ActionBarActivity {
         firstWordBuilder.setCancelable(false);
 
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        newFirstWord.setInputType(InputType.TYPE_CLASS_TEXT);// | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+        newFirstWord.setInputType(InputType.TYPE_CLASS_TEXT);
         firstWordBuilder.setView(newFirstWord);
 
         // Set up the buttons
@@ -101,9 +85,7 @@ public class Builder extends ActionBarActivity {
                 getLastWord();
             }
         });
-
         firstWordBuilder.show();
-
     }
 
     /**
@@ -111,6 +93,7 @@ public class Builder extends ActionBarActivity {
      * of their word chain. It then calls createWordChain() after it finishes.
      */
     private void getLastWord() {
+
         //Get Last Word dialog box
         newLastWord = new EditText(this);
         AlertDialog.Builder lastWordBuilder = new AlertDialog.Builder(this);
@@ -129,12 +112,9 @@ public class Builder extends ActionBarActivity {
                     Log.e(TAG_BUILDER, "Invalid word!!!");
                 }
                 createWordChain();
-
             }
         });
-
         lastWordBuilder.show();
-
     }
 
     /**
@@ -142,19 +122,7 @@ public class Builder extends ActionBarActivity {
      * creates the word chain using the member first and last word.
      */
     private void createWordChain() {
-//        if(!Dictionary.lookUpAll(newFirstWord.getText().toString()))
-//        {
-//            getFirstWord();
-//        }
-        Log.i(TAG_BUILDER, "First Word: " + newFirstWord.getText().toString());
-        Log.i(TAG_BUILDER, "Last  Word: " + newLastWord.getText().toString());
-
-        if (newFirstWord.getText().toString().length() < 3) {
-            Log.e(TAG_BUILDER, "String too short! Abort!!!");
-        }
-
         wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString(), null);
-
         display();
     }
 
@@ -174,9 +142,7 @@ public class Builder extends ActionBarActivity {
 
     public void next(String currentWord) {
 
-        Log.e(TAG_BUILDER, "Current Word in Next: " + currentWord);
         wordChain.next(currentWord);
-        Log.e(TAG_BUILDER, "Current Word after Next: " + wordChain.getCurrentWord());
         display();
     }
 
@@ -194,7 +160,6 @@ public class Builder extends ActionBarActivity {
 
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
 
-
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
@@ -204,12 +169,10 @@ public class Builder extends ActionBarActivity {
                         list.setAdapter(adapter);
                     }
                 });
-
                 return null;
             }
         }
         new AsyncLoad().execute();
-        Log.e(TAG_BUILDER, "Current Word calling Buttons: " + wordChain.getCurrentWord());
         createWordButtons(wordChain.getCurrentWord());
     }
 
@@ -233,15 +196,13 @@ public class Builder extends ActionBarActivity {
         }
 
         //Set adapter with the string array
-        Log.e(TAG_BUILDER, "Current Word Array before adapter: " + currentWordArray[0] + currentWordArray[1] + currentWordArray[2] + currentWordArray[3]);
         adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, currentWordArray);
         grid.setAdapter(adapter);
 
         //When the user hits the button...
         grid.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                //Toast.makeText(getApplicationContext(), ((TextView) view).getText(), Toast.LENGTH_SHORT).show();
-                //next(view, position);
+
                 currentChildView = (TextView) view;
 
                 //...Get New Letter dialog box...
@@ -254,6 +215,7 @@ public class Builder extends ActionBarActivity {
                 newLetterBuilder.setView(newLetter);
                 // Set up the button
                 newLetterBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String nextWord = "";
@@ -270,28 +232,22 @@ public class Builder extends ActionBarActivity {
                         });
                         currentChildView.setText(newLetter.getText().toString());
 
-
-                        //view.clearFocus();
                         for (Integer i = 0; i < wordChain.getWordLength(); i++) {
                             gridChild = (TextView) grid.getChildAt(i);
                             nextWord += gridChild.getText();
                         }
 
-                        Log.e(TAG_BUILDER, "Current Word: " + nextWord);
                         next(nextWord);
 
                         if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
                             Log.e(TAG_BUILDER, "Invalid word!!!");
                         }
-
-
                     }
                 });
                 newLetterBuilder.show();
-                currentChildView.setText(newLetter.getText().toString());
+                //currentChildView.setText(newLetter.getText().toString());
             }
         });
-
     }
 
     @Override
