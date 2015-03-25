@@ -17,6 +17,8 @@ import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import java.util.ArrayList;
 
 /**
@@ -79,9 +81,7 @@ public class Builder extends ActionBarActivity {
         firstWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
-                    Log.e(TAG_BUILDER, "Invalid word!!!");
-                }
+
                 getLastWord();
             }
         });
@@ -94,27 +94,37 @@ public class Builder extends ActionBarActivity {
      */
     private void getLastWord() {
 
-        //Get Last Word dialog box
-        newLastWord = new EditText(this);
-        AlertDialog.Builder lastWordBuilder = new AlertDialog.Builder(this);
-        lastWordBuilder.setTitle("Last Word");
-        lastWordBuilder.setCancelable(false);
+        if (!Dictionary.lookUpAll(newFirstWord.getText().toString()) ||
+                newFirstWord.getText().toString().length() > 5 ||
+                newFirstWord.getText().toString().length() < 3) {
+            Log.e(TAG_BUILDER, "Invalid words!!!");
+            Toast toast = Toast.makeText(getApplicationContext(), "Invalid First Word\nPlease enter\na valid word\nbetween three and five\nletters long.",
+                    Toast.LENGTH_LONG);
+            toast.show();
+            getFirstWord();
+        } else {
+            //Get Last Word dialog box
+            newLastWord = new EditText(this);
+            AlertDialog.Builder lastWordBuilder = new AlertDialog.Builder(this);
+            lastWordBuilder.setTitle("Last Word");
+            lastWordBuilder.setCancelable(false);
 
-        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        newLastWord.setInputType(InputType.TYPE_CLASS_TEXT);// | InputType.TYPE_TEXT_VARIATION_PASSWORD);
-        lastWordBuilder.setView(newLastWord);
+            // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+            newLastWord.setInputType(InputType.TYPE_CLASS_TEXT);// | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            lastWordBuilder.setView(newLastWord);
 
-        // Set up the buttons
-        lastWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
-                    Log.e(TAG_BUILDER, "Invalid word!!!");
+            // Set up the buttons
+            lastWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
+                        Log.e(TAG_BUILDER, "Invalid word!!!");
+                    }
+                    createWordChain();
                 }
-                createWordChain();
-            }
-        });
-        lastWordBuilder.show();
+            });
+            lastWordBuilder.show();
+        }
     }
 
     /**
@@ -122,8 +132,17 @@ public class Builder extends ActionBarActivity {
      * creates the word chain using the member first and last word.
      */
     private void createWordChain() {
-        wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString(), null);
-        display();
+        if (!Dictionary.lookUpAll(newLastWord.getText().toString()) ||
+                newLastWord.getText().toString().length() != newFirstWord.getText().length()) {
+            Log.e(TAG_BUILDER, "Invalid last word!!!");
+            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Last Word\nPlease enter\na valid word\n the same length\nas the first word.",
+                    Toast.LENGTH_LONG);
+            toast.show();
+            getLastWord();
+        } else {
+            wordChain = new WordChain(newFirstWord.getText().toString(), newLastWord.getText().toString(), null);
+            display();
+        }
     }
 
     public void save(View view) {
@@ -184,7 +203,6 @@ public class Builder extends ActionBarActivity {
     public void createWordButtons(String currentWord) {
 
         //Get grid view
-        Log.e(TAG_BUILDER, "Current Word in Buttons: " + wordChain.getCurrentWord());
         grid = (GridView) findViewById(R.id.currentWordButtons);
 
         //set and fill a string array
@@ -221,13 +239,11 @@ public class Builder extends ActionBarActivity {
                         String nextWord = "";
                         TextView gridChild = null;
                         char[] nextLetter = newLetter.getText().toString().toCharArray();
-                        Log.e(TAG_BUILDER, "New Letter: " + newLetter.getText().toString());
                         runOnUiThread(new Runnable() {
                             @Override
                             public void run() {
 
                                 currentChildView.setText(newLetter.getText().toString());
-                                Log.e(TAG_BUILDER, "Grid Child new Letter: " + newLetter.getText().toString());
                             }
                         });
                         currentChildView.setText(newLetter.getText().toString());
@@ -237,15 +253,16 @@ public class Builder extends ActionBarActivity {
                             nextWord += gridChild.getText();
                         }
 
-                        next(nextWord);
-
-                        if (!Dictionary.lookUpAll(newFirstWord.getText().toString())) {
-                            Log.e(TAG_BUILDER, "Invalid word!!!");
+                        if (nextWord.equals(wordChain.getLastWord())) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "You Finished! Yay!",
+                                    Toast.LENGTH_SHORT);
+                            toast.show();
                         }
+                        next(nextWord);
                     }
                 });
                 newLetterBuilder.show();
-                //currentChildView.setText(newLetter.getText().toString());
+                currentChildView.setText(newLetter.getText().toString());
             }
         });
     }

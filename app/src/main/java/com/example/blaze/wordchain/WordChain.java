@@ -117,9 +117,7 @@ public class WordChain {
      */
     public boolean next(String currentWord) {
         if (validate(currentWord)) {
-            Log.e("WORD_CHAIN", "Size Before: " + chain.size());
             chain.add(currentWord); //if it is valid, append it to the array
-            Log.e("WORD_CHAIN", "Size After:  " + chain.size());
             return true;
         }
         else {
