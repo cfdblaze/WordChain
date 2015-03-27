@@ -48,6 +48,8 @@ public class Builder extends ActionBarActivity {
 
         Bundle bundle = getIntent().getExtras();
 
+        //Checks if there is an incoming bundle - if yes, extracts the data.
+        //If not, asks the user for data.
         if(bundle == null) {
             getFirstWord();
         }

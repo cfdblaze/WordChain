@@ -149,6 +149,7 @@ public class WordChain {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //checks if the chain exists in the file
         try {
             while ((nextline = br.readLine()) != null) {
                 if (nextline != "") {
@@ -167,6 +168,7 @@ public class WordChain {
         } catch (IOException e) {
             e.printStackTrace();
         }
+        //if the chain is not in the file, simply appends the new chain at the end of the file.
         if (flag != true) {
             chain.add(chain.size(), getLastWord());
             File file = new File(context.getFilesDir(), "chainList.txt");
@@ -185,6 +187,8 @@ public class WordChain {
                 e.printStackTrace();
             }
         }
+        //if the chain does exist, reads the file into an array of strings,
+        //replaces the old chain with the new, then saves the array to the file again.
         else {
             String replacerline = nextline;
             ArrayList<String> fulltext = new ArrayList<>();

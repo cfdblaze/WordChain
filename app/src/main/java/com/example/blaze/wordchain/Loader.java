@@ -2,12 +2,14 @@ package com.example.blaze.wordchain;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
@@ -34,6 +36,7 @@ public class Loader extends ActionBarActivity {
         setContentView(R.layout.activity_loader);
         load();
 
+        //When an item is clicked, sends a bundle to Builder
         ListView listView = (ListView) findViewById(R.id.listView);
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
@@ -50,10 +53,12 @@ public class Loader extends ActionBarActivity {
         });
     }
 
+    /**
+    * Loads the chainList file, turns the file into an array of Strings,
+     */
     public void load() {
         Context context = GlobalVars.getAppContext();
         String nextline = "";
-        int i = 0;
         String nextArray[];
         WordChain tempChain = null;
         BufferedReader br = null;
@@ -81,6 +86,9 @@ public class Loader extends ActionBarActivity {
         displayList();
     }
 
+    /**
+     * Displays the array of Strings from load() in a ListView
+     */
     public void displayList() {
         Context context = GlobalVars.getAppContext();
         ArrayList<String> arrayList = new ArrayList<>();
@@ -89,7 +97,17 @@ public class Loader extends ActionBarActivity {
             line = list.get(i).getFirstWord() + " -> " + list.get(i).getLastWord();
             arrayList.add(line);
         }
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, arrayList);
+
+        //When creating the adapter, overrides getView to ensure text in the ListView is black
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(context, android.R.layout.simple_list_item_1, arrayList) {
+            @Override
+            public View getView(int position, View convertView, ViewGroup parent) {
+                View view = super.getView(position, convertView, parent);
+                TextView text = (TextView) view.findViewById(android.R.id.text1);
+                text.setTextColor(Color.BLACK);
+                return view;
+            }
+        };
         ListView writeScreen = (ListView) findViewById(R.id.listView);
         writeScreen.setAdapter(adapter);
     }
