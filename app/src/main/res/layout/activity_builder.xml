@@ -85,15 +85,15 @@
         android:layout_alignRight="@+id/lastWord"
         android:layout_alignEnd="@+id/lastWord" />
 
-    <!--
-    <GridView
-        android:id="@+id/gridView1"
-        android:numColumns="auto_fit"
-        android:gravity="center"
-        android:columnWidth="50dp"
-        android:stretchMode="columnWidth"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent" ></GridView>-->
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="points"
+        android:id="@+id/pointsDisplay"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/clearButton"
+        android:textSize="30dp" />
 
 </RelativeLayout>
 

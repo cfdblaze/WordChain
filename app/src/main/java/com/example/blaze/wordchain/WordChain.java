@@ -72,7 +72,7 @@ public class WordChain {
     public String  getCurrentWord()                     { return chain.get(chain.size() - 1); }
     public String  getLastWord()                        { return lastWord; }
     public Integer getWordLength()                      { return wordLength; }
-    public Integer getPoints()                          { return points; }
+    public Integer getPoints()                          { return calculatePoints(); }
     public void setFirstWord(String newFirstWord)       { firstWord = newFirstWord; }
     public void setCurrentWord(String newCurrentWord)   { currentWord = newCurrentWord; }
     public void setLastWord(String newLastWord)         { lastWord = newLastWord; }
@@ -127,7 +127,16 @@ public class WordChain {
     }
 
     public Integer calculatePoints() {
-        return null;
+        Integer calculatedPoints = 0;
+        for (String word : chain) {
+             if(!Dictionary.lookUpCommon(word)) {
+                calculatedPoints += 1;
+            } else {
+                 calculatedPoints += 2;
+            }
+        }
+        setPoints(calculatedPoints);
+        return calculatedPoints;
     }
 
     /**

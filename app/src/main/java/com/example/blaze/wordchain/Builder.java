@@ -177,17 +177,18 @@ public class Builder extends ActionBarActivity {
 
             @Override
              protected String doInBackground(String... params) {
+
                 final ListView list = (ListView) findViewById(R.id.listView);
-
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
-
+                final TextView pointsView = (TextView) findViewById(R.id.pointsDisplay);
                 runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
                         TextView lastWordText = (TextView) findViewById(R.id.lastWord);
                         lastWordText.setText(wordChain.getLastWord());
-
                         list.setAdapter(adapter);
+                        Log.e(TAG_BUILDER, "Points I got: " + wordChain.getPoints());
+                        pointsView.setText(wordChain.getPoints().toString());
                     }
                 });
                 return null;
@@ -228,7 +229,7 @@ public class Builder extends ActionBarActivity {
                 //...Get New Letter dialog box...
                 newLetter = new EditText(Builder.this);
                 AlertDialog.Builder newLetterBuilder = new AlertDialog.Builder(Builder.this);
-                newLetterBuilder.setTitle("New Letter");
+                newLetterBuilder.setTitle("New Letter for " + currentChildView.getText());
                 newLetterBuilder.setCancelable(false);
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 newLetter.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE | InputType.TYPE_CLASS_TEXT);
@@ -260,7 +261,14 @@ public class Builder extends ActionBarActivity {
                                     Toast.LENGTH_SHORT);
                             toast.show();
                         }
-                        next(nextWord);
+                        if (!Dictionary.lookUpAll(nextWord)) {
+                            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Word",
+                                    Toast.LENGTH_SHORT);
+                            toast.show();
+                        }
+                        else {
+                            next(nextWord);
+                        }
                     }
                 });
                 newLetterBuilder.show();

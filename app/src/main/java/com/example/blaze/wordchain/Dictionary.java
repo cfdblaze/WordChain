@@ -39,7 +39,7 @@ import android.util.Log;
  * Created by Corey on 2/21/2015.
  */
 public class Dictionary {
-    private ArrayList<String> commonWordList = new ArrayList<>();
+    private static ArrayList<String> commonWordList = new ArrayList<>();
     private static String wordXML = null;
     public static void setWordXML(String xmlPass){
         wordXML = xmlPass;
@@ -50,7 +50,7 @@ public class Dictionary {
      * @param wordCheck - word to be checked
      * @return whether the word is considered common
      */
-    public boolean lookUpCommon(String wordCheck){
+    public static boolean lookUpCommon(String wordCheck){
         if (commonWordList.contains(wordCheck)){
             return true;
         }
