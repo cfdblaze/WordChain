@@ -65,12 +65,14 @@ public class Loader extends ActionBarActivity {
         }
         try {
             while ((nextline = br.readLine()) != null) {
-                System.out.println(nextline);
-                nextArray = nextline.split(" ");
-                int arraySize = nextArray.length - 1;
-                ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(nextArray));
-                tempChain = new WordChain(nextArray[0], nextArray[arraySize], stringList);
-                list.add(tempChain);
+                if (nextline != "") {
+                    System.out.println(nextline);
+                    nextArray = nextline.split(" ");
+                    int arraySize = nextArray.length - 1;
+                    ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(nextArray));
+                    tempChain = new WordChain(nextArray[0], nextArray[arraySize], stringList);
+                    list.add(tempChain);
+                }
             }
             br.close();
         } catch (IOException e) {

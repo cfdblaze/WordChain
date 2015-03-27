@@ -23,6 +23,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class WordChain {
@@ -137,22 +138,91 @@ public class WordChain {
     public void save() {
         Context context = GlobalVars.getAppContext();
         String fullList = "";
-        int i;
-        chain.add(chain.size(), getLastWord());
-        File file = new File(context.getFilesDir(), "chainList.txt");
-        for (i = 0; i < chain.size(); i++) {
-            fullList = fullList + chain.get(i) + " ";
-        }
-        BufferedWriter fout = null;
+        String nextline = "";
+        WordChain tempChain = null;
+        BufferedReader br = null;
+        String nextArray[];
+        int i = 0;
+        boolean flag = false;
+
         try {
-            fout = new BufferedWriter(new FileWriter(file, true));
-            fout.newLine();
-            fout.write(fullList);
-            fout.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            File loadFile = new File(context.getFilesDir(), "chainList.txt");
+            br = new BufferedReader(new FileReader(loadFile));
         } catch (IOException e) {
             e.printStackTrace();
+        }
+        try {
+            while ((nextline = br.readLine()) != null) {
+                if (nextline != "") {
+                    System.out.println(nextline);
+                    nextArray = nextline.split(" ");
+                    int arraySize = nextArray.length - 1;
+                    ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(nextArray));
+                    tempChain = new WordChain(nextArray[0], nextArray[arraySize], stringList);
+                    if (tempChain.getFirstWord().equals(getFirstWord()) || tempChain.getLastWord().equals(getLastWord())) {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+            br.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        if (flag != true) {
+            chain.add(chain.size(), getLastWord());
+            File file = new File(context.getFilesDir(), "chainList.txt");
+            for (i = 0; i < chain.size(); i++) {
+                fullList = fullList + chain.get(i) + " ";
+            }
+            BufferedWriter fout = null;
+            try {
+                fout = new BufferedWriter(new FileWriter(file, true));
+                fout.newLine();
+                fout.write(fullList);
+                fout.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        else {
+            String replacerline = nextline;
+            ArrayList<String> fulltext = new ArrayList<>();
+            try {
+                File loadFile = new File(context.getFilesDir(), "chainList.txt");
+                br = new BufferedReader(new FileReader(loadFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            try {
+                while ((nextline = br.readLine()) != null) {
+                    fulltext.add(nextline);
+                }
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            chain.add(chain.size(), getLastWord());
+            File file = new File(context.getFilesDir(), "chainList.txt");
+            for (i = 0; i < chain.size(); i++) {
+                fullList = fullList + chain.get(i) + " ";
+            }
+            BufferedWriter fout = null;
+            fulltext.set(fulltext.indexOf(replacerline), fullList);
+
+            try {
+                fout = new BufferedWriter(new FileWriter(file));
+                for (i = 0; i < fulltext.size(); i++) {
+                    fout.write(fulltext.get(i));
+                    fout.newLine();
+                }
+                fout.close();
+            } catch (FileNotFoundException e) {
+                e.printStackTrace();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
     }
 }
