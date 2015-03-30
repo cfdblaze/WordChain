@@ -11,6 +11,11 @@ import android.view.View;
 import android.widget.Toast;
 import android.view.View;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+
 
 public class MainActivity extends ActionBarActivity {
 
@@ -18,6 +23,23 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        SharedPreferences settings = getSharedPreferences("prefs", 0);
+        boolean firstStart = settings.getBoolean("firstStart", true);
+        if (firstStart) {
+            Context context = this.getApplicationContext();
+            File file = new File(context.getFilesDir(), "chainList.txt");
+            BufferedWriter fout = null;
+            try {
+                fout = new BufferedWriter(new FileWriter(file));
+                fout.write("");
+                fout.close();
+                SharedPreferences.Editor editor = settings.edit();
+                editor.putBoolean("firstStart", false);
+                editor.commit();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     /**

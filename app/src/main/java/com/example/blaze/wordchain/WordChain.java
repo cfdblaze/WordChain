@@ -167,7 +167,7 @@ public class WordChain {
                     int arraySize = nextArray.length - 1;
                     ArrayList<String> stringList = new ArrayList<String>(Arrays.asList(nextArray));
                     tempChain = new WordChain(nextArray[0], nextArray[arraySize], stringList);
-                    if (tempChain.getFirstWord().equals(getFirstWord()) || tempChain.getLastWord().equals(getLastWord())) {
+                    if (tempChain.getFirstWord().equals(getFirstWord()) && tempChain.getLastWord().equals(getLastWord())) {
                         flag = true;
                         break;
                     }
