@@ -70,7 +70,7 @@ public class Loader extends ActionBarActivity {
         }
         try {
             while ((nextline = br.readLine()) != null) {
-                if (nextline != "") {
+                if (!nextline.equals("")) {
                     System.out.println(nextline);
                     nextArray = nextline.split(" ");
                     int arraySize = nextArray.length - 1;

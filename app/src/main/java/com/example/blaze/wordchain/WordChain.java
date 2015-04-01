@@ -45,6 +45,7 @@ public class WordChain {
     public WordChain() {
 
     }
+
     /**
      * Basic constructor
      * @param first - the first word in the chain
@@ -159,7 +160,7 @@ public class WordChain {
         //checks if the chain exists in the file
         try {
             while ((nextline = br.readLine()) != null) {
-                if (nextline != "") {
+                if (!nextline.equals("")) {
                     System.out.println(nextline);
                     nextArray = nextline.split(" ");
                     int arraySize = nextArray.length - 1;
