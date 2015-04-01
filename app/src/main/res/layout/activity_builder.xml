@@ -52,7 +52,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Text"
+        android:text=""
         android:id="@+id/lastWord"
         android:layout_above="@+id/saveButton"
         android:layout_centerHorizontal="true" />
@@ -88,7 +88,7 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="points"
+        android:text=""
         android:id="@+id/pointsDisplay"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"

@@ -42,17 +42,15 @@ public class WordChain {
 //        super.onCreate(savedInstanceState);
 //        setContentView(R.layout.activity_word_chain);
 //    }
-
-    WordChain() {
+    public WordChain() {
 
     }
-
     /**
      * Basic constructor
      * @param first - the first word in the chain
      * @param last - the last or "target" word in the chain
      */
-    WordChain(String first, String last, ArrayList<String> arrayList) {
+    public WordChain(String first, String last, ArrayList<String> arrayList) {
         setFirstWord(first);
         setCurrentWord(first);
         setLastWord(last);

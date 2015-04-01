@@ -234,6 +234,7 @@ public class Builder extends ActionBarActivity {
                 // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
                 newLetter.setInputType(InputType.TYPE_TEXT_FLAG_NO_SUGGESTIONS | InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE | InputType.TYPE_CLASS_TEXT);
                 newLetterBuilder.setView(newLetter);
+                final String currentLetter = currentChildView.getText().toString();
                 // Set up the button
                 newLetterBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
 
@@ -247,6 +248,7 @@ public class Builder extends ActionBarActivity {
                             public void run() {
 
                                 currentChildView.setText(newLetter.getText().toString());
+
                             }
                         });
                         currentChildView.setText(newLetter.getText().toString());
@@ -261,7 +263,7 @@ public class Builder extends ActionBarActivity {
                                     Toast.LENGTH_SHORT);
                             toast.show();
                         }
-                        if (!Dictionary.lookUpAll(nextWord)) {
+                        if (!Dictionary.lookUpAll(nextWord) || nextWord.length() != wordChain.getWordLength()) {
                             Toast toast = Toast.makeText(getApplicationContext(), "Invalid Word",
                                     Toast.LENGTH_SHORT);
                             toast.show();
@@ -271,8 +273,19 @@ public class Builder extends ActionBarActivity {
                         }
                     }
                 });
+                newLetterBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        currentChildView.setText(currentLetter);
+                        // Do nothing
+                        dialog.dismiss();
+                    }
+                });
+
                 newLetterBuilder.show();
                 currentChildView.setText(newLetter.getText().toString());
+
             }
         });
     }
