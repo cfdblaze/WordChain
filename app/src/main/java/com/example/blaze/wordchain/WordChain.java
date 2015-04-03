@@ -126,9 +126,23 @@ public class WordChain {
     }
 
     public Integer calculatePoints() {
+        Context context = GlobalVars.getAppContext();
         Integer calculatedPoints = 0;
+        List<String> neffList = new ArrayList<String>();
+        File file = new File(context.getFilesDir(), "NeffWords.txt");
+        String nextline;
+        try {
+            BufferedReader br = new BufferedReader(new FileReader(file));
+            while ((nextline = br.readLine()) != null) {
+                neffList.add(nextline);
+            }
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         for (String word : chain) {
-             if(!Dictionary.lookUpCommon(word)) {
+             if(Dictionary.lookUpCommon(word) || neffList.contains(word)) {
                 calculatedPoints += 1;
             } else {
                  calculatedPoints += 2;

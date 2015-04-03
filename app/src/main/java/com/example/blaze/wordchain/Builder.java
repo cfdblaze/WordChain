@@ -1,6 +1,7 @@
 package com.example.blaze.wordchain;
 
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.AsyncTask;
@@ -19,6 +20,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 
 /**
@@ -288,6 +294,22 @@ public class Builder extends ActionBarActivity {
 
             }
         });
+    }
+
+    public void neffAdd (String addWord) {
+        Context context = GlobalVars.getAppContext();
+        File file = new File(context.getFilesDir(), "NeffWords.txt");
+        BufferedWriter fout = null;
+        try {
+            fout = new BufferedWriter(new FileWriter(file));
+            fout.newLine();
+            fout.write(addWord);
+            fout.close();
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

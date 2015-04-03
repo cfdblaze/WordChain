@@ -28,9 +28,13 @@ public class MainActivity extends ActionBarActivity {
         if (firstStart) {
             Context context = this.getApplicationContext();
             File file = new File(context.getFilesDir(), "chainList.txt");
+            File neffFile = new File(context.getFilesDir(), "NeffWords.txt");
             BufferedWriter fout = null;
             try {
                 fout = new BufferedWriter(new FileWriter(file));
+                fout.write("");
+                fout.close();
+                fout = new BufferedWriter(new FileWriter(neffFile));
                 fout.write("");
                 fout.close();
                 SharedPreferences.Editor editor = settings.edit();
