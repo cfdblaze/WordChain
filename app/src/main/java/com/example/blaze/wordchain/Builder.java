@@ -309,6 +309,7 @@ public class Builder extends ActionBarActivity {
             fout.close();
         } catch (FileNotFoundException e) {
             e.printStackTrace();
+            System.out.println("File not found!");
         } catch (IOException e) {
             e.printStackTrace();
         }
