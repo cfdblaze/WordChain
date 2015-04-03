@@ -95,5 +95,27 @@
         android:layout_alignBottom="@+id/clearButton"
         android:textSize="30dp" />
 
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Add Common"
+        android:id="@+id/addCommonButton"
+        android:onClick="addCommon"
+        android:layout_alignBottom="@+id/saveButton"
+        android:layout_alignRight="@+id/currentWordButtons"
+        android:layout_alignEnd="@+id/currentWordButtons" />
+
+    <Button
+        style="?android:attr/buttonStyleSmall"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Instructions"
+        android:id="@+id/instructionsButton"
+        android:onClick="displayInstructions"
+        android:layout_alignBottom="@+id/saveButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
 </RelativeLayout>
 

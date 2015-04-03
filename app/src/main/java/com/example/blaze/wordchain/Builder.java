@@ -39,6 +39,7 @@ public class Builder extends ActionBarActivity {
     private WordChain wordChain;
     private EditText newFirstWord;
     private EditText newLastWord;
+    private EditText newCommonWord;
     private TextView currentChildView;
     private EditText newLetter;
     public GridView grid;
@@ -303,7 +304,7 @@ public class Builder extends ActionBarActivity {
         File file = new File(context.getFilesDir(), "NeffWords.txt");
         BufferedWriter fout = null;
         try {
-            fout = new BufferedWriter(new FileWriter(file));
+            fout = new BufferedWriter(new FileWriter(file, true));
             fout.newLine();
             fout.write(addWord);
             fout.close();
@@ -313,6 +314,57 @@ public class Builder extends ActionBarActivity {
         } catch (IOException e) {
             e.printStackTrace();
         }
+    }
+
+    public void addCommon(View view) {
+        //Get First Word dialog box
+        newCommonWord = new EditText(this);
+        final AlertDialog.Builder commonWordBuilder = new AlertDialog.Builder(this);
+        commonWordBuilder.setTitle("Add Common Word: ");
+        commonWordBuilder.setCancelable(false);
+
+        // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
+        newFirstWord.setInputType(InputType.TYPE_CLASS_TEXT);
+        commonWordBuilder.setView(newCommonWord);
+
+        // Set up the buttons
+        commonWordBuilder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                String newWord = newCommonWord.getText().toString();
+
+
+                if (newWord.length() > 5 || newWord.length() < 3) {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Length\n3-5 letters",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+                else if(Dictionary.lookUpAll(newWord)) {
+                    neffAdd(newWord);
+                    display();
+                }
+                else {
+                    Toast toast = Toast.makeText(getApplicationContext(), "Invalid Word",
+                            Toast.LENGTH_SHORT);
+                    toast.show();
+                }
+            }
+        });
+        commonWordBuilder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+        commonWordBuilder.show();
+
+    }
+
+    public void displayInstructions(View view) {
+
     }
 
     @Override
