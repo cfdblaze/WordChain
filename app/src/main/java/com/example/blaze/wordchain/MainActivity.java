@@ -61,10 +61,10 @@ public class MainActivity extends ActionBarActivity {
      * page is selected, and starts a new activity.
      * @param view
      */
-    public void solve(View view) {
-        Intent solve = new Intent(this, Solver.class);
-        startActivity(solve);
-    }
+//    public void solve(View view) {
+//        Intent solve = new Intent(this, Solver.class);
+//        startActivity(solve);
+//    }
 
     /**
      * This method is called when the "Load" button on the main
@@ -75,7 +75,6 @@ public class MainActivity extends ActionBarActivity {
         Intent load = new Intent(this, Loader.class);
         startActivity(load);
     }
-
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
