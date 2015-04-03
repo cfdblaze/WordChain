@@ -176,7 +176,7 @@ public class Builder extends ActionBarActivity {
         class AsyncLoad extends AsyncTask<String, Integer, String> {
 
             @Override
-             protected String doInBackground(String... params) {
+            protected String doInBackground(String... params) {
 
                 final ListView list = (ListView) findViewById(R.id.listView);
                 final ArrayAdapter<String> adapter = new ArrayAdapter<String>(Builder.this, android.R.layout.simple_list_item_1, wordChain.chain);
@@ -264,6 +264,8 @@ public class Builder extends ActionBarActivity {
                             toast.show();
                         }
                         if (!Dictionary.lookUpAll(nextWord) || nextWord.length() != wordChain.getWordLength()) {
+
+                            currentChildView.setText(currentLetter);
                             Toast toast = Toast.makeText(getApplicationContext(), "Invalid Word",
                                     Toast.LENGTH_SHORT);
                             toast.show();
