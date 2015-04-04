@@ -155,7 +155,11 @@ public class Builder extends ActionBarActivity {
     }
 
     public void save(View view) {
+
         wordChain.save();
+        Intent intent = new Intent(Builder.this, MainActivity.class);
+        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        Builder.this.startActivity(intent);
     }
 
     public void undo(View view) {
