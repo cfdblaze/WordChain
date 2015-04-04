@@ -324,7 +324,7 @@ public class Builder extends ActionBarActivity {
         commonWordBuilder.setCancelable(false);
 
         // Specify the type of input expected; this, for example, sets the input as a password, and will mask the text
-        newFirstWord.setInputType(InputType.TYPE_CLASS_TEXT);
+        newCommonWord.setInputType(InputType.TYPE_CLASS_TEXT);
         commonWordBuilder.setView(newCommonWord);
 
         // Set up the buttons
