@@ -26,7 +26,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-
+/**
+ * This class is linked to the Loader, which creates a list from a saved
+ * file and displays it.  The user can select one of the options from the list
+ * and continue working on that chain.
+ */
 public class Loader extends ActionBarActivity {
 
     public List<WordChain> list = new ArrayList<>();
