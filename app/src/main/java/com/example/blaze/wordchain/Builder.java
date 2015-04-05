@@ -144,7 +144,7 @@ public class Builder extends ActionBarActivity {
         if (!Dictionary.lookUpAll(newLastWord.getText().toString()) ||
                 newLastWord.getText().toString().length() != newFirstWord.getText().length()) {
             Log.e(TAG_BUILDER, "Invalid last word!!!");
-            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Last Word\nPlease enter\na valid word\n the same length\nas the first word.",
+            Toast toast = Toast.makeText(getApplicationContext(), "Invalid Last Word\nPlease enter\na valid " + newFirstWord.length() + " word",
                     Toast.LENGTH_LONG);
             toast.show();
             getLastWord();
@@ -155,11 +155,7 @@ public class Builder extends ActionBarActivity {
     }
 
     public void save(View view) {
-
         wordChain.save();
-        Intent intent = new Intent(Builder.this, MainActivity.class);
-        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-        Builder.this.startActivity(intent);
     }
 
     public void undo(View view) {
