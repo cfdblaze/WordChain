@@ -17,6 +17,7 @@ import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ListView;
+import android.widget.PopupWindow;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -156,6 +157,8 @@ public class Builder extends ActionBarActivity {
 
     public void save(View view) {
         wordChain.save();
+        Intent mainMenu = new Intent(this, MainActivity.class);
+        startActivity(mainMenu);
     }
 
     public void undo(View view) {
@@ -276,8 +279,7 @@ public class Builder extends ActionBarActivity {
                             Toast toast = Toast.makeText(getApplicationContext(), "Invalid Word",
                                     Toast.LENGTH_SHORT);
                             toast.show();
-                        }
-                        else {
+                        } else {
                             next(nextWord);
                         }
                     }
@@ -360,11 +362,22 @@ public class Builder extends ActionBarActivity {
             }
         });
         commonWordBuilder.show();
-
     }
 
     public void displayInstructions(View view) {
+        AlertDialog.Builder instructions = new AlertDialog.Builder(Builder.this);
+        instructions.setTitle("Word Chain Instructions");
+        instructions.setMessage("Try to get from the first word to the last word by changing only one letter at a time.\n\nSelect a letter on the bottom of the screen to change it, and the new word will be added to the list. Change letters one by one until you reach the last word. \n\nThe points are determined by whether you use commmon words (1 point) or uncommon words (2 points). The lower the score the better.\n\nSelect \"Clear\" to start from the beginning\n\nSelect \"Undo\" to go back one word\n\nSelect \"Save\" to add your chain to the load list\n\nSelect \"Add Common\" if you want to add a word to the common word dictionary");
 
+        instructions.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                // Do nothing
+                dialog.dismiss();
+            }
+        });
+        instructions.show();
     }
 
     @Override

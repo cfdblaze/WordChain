@@ -57,16 +57,6 @@ public class MainActivity extends ActionBarActivity {
     }
 
     /**
-     * This method is called when the "Solve" button on the main
-     * page is selected, and starts a new activity.
-     * @param view
-     */
-//    public void solve(View view) {
-//        Intent solve = new Intent(this, Solver.class);
-//        startActivity(solve);
-//    }
-
-    /**
      * This method is called when the "Load" button on the main
      * page is selected, and starts a new activity.
      * @param view
