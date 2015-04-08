@@ -301,6 +301,11 @@ public class Builder extends ActionBarActivity {
         });
     }
 
+    /** Adds the word given in addCommon to the internal list of common words.
+     *  It persists through multiple uses.
+     *
+     * @param addWord word to be added to the list of common words
+     */
     public void neffAdd (String addWord) {
         Context context = GlobalVars.getAppContext();
         File file = new File(context.getFilesDir(), "NeffWords.txt");
