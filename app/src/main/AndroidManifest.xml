@@ -28,15 +28,6 @@
             android:screenOrientation="portrait" >
         </activity>
         <activity
-            android:name=".Solver"
-            android:label="@string/title_activity_solver"
-            android:parentActivityName=".WordChain"
-            android:screenOrientation="portrait" >
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value="WordChain" />
-        </activity>
-        <activity
             android:name=".Loader"
             android:label="@string/title_activity_loader"
             android:screenOrientation="portrait" >

@@ -1,27 +1,13 @@
 package com.example.blaze.wordchain;
 
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.support.v7.app.ActionBarActivity;
-import android.os.Bundle;
-import android.util.Log;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.widget.Toast;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.File;
-import java.io.FileInputStream;
 import java.io.FileNotFoundException;
-import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -36,20 +22,16 @@ public class WordChain {
     public Dictionary dictionary;
     private Integer points;
 
-
-//    @Override
-//    protected void onCreate(Bundle savedInstanceState) {
-//        super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_word_chain);
-//    }
     public WordChain() {
 
     }
 
     /**
-     * Basic constructor
+     * Constructor
      * @param first - the first word in the chain
      * @param last - the last or "target" word in the chain
+     * @param arrayList - a possible list of words already used
+     *                  (only used if called from the Loader, otherwise, it's null)
      */
     public WordChain(String first, String last, ArrayList<String> arrayList) {
         setFirstWord(first);
@@ -125,6 +107,12 @@ public class WordChain {
         }
     }
 
+    /**
+     * This method is called from the Builder display, so every time something changes, so does
+     * the number of points. The points are golf scoring, so a common word is worth 1 point, but
+     * an uncommon word is worth 2.
+     * @return
+     */
     public Integer calculatePoints() {
         Context context = GlobalVars.getAppContext();
         Integer calculatedPoints = 0;
